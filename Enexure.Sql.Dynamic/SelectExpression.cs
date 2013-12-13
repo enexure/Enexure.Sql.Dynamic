@@ -21,5 +21,15 @@ namespace Enexure.Sql.Dynamic
 			this.expression = expression;
 			this.alias = alias;
 		}
+
+		public Expression Expression
+		{
+			get { return expression; }
+		}
+
+		public string Alias
+		{
+			get { return alias; }
+		}
 	}
 }

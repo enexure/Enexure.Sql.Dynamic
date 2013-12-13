@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic
 {
-	public class Expression
+	public abstract class Expression
 	{
 		public static Expression Const(object value)
 		{
-			throw new NotImplementedException();
+			return new ConstantExpression(value);
+		}
+
+		public static EqualityExpression Eq(Expression expressionLeft, Expression expressionRight)
+		{
+			return new EqualityExpression(expressionLeft, expressionRight);
 		}
 	}
 }

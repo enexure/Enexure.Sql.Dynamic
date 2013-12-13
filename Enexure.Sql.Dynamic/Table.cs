@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic
 {
-	public sealed class Table
+	public sealed class Table : Expression
 	{
 		private readonly string name;
 
@@ -15,9 +11,14 @@ namespace Enexure.Sql.Dynamic
 			this.name = name;
 		}
 
+		public string Name
+		{
+			get { return name; }
+		}
+
 		public SelectExpression All()
 		{
-			return new SelectExpression(new Field(this, "*"));
+			return new SelectExpression(Dynamic.Field.All(new TableSource(this)));
 		}
 
 		public TableSource As(string alias)
@@ -27,7 +28,7 @@ namespace Enexure.Sql.Dynamic
 
 		public Field Field(string name)
 		{
-			return new Field(this, name);
+			return new Field(new TableSource(this), name);
 		}
 	}
 }

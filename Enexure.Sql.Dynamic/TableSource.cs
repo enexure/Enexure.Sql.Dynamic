@@ -10,11 +10,31 @@ namespace Enexure.Sql.Dynamic
 	{
 		private readonly Table table;
 
+		public TableSource(Table table)
+			: base(null)
+		{
+			this.table = table;
+		}
+
 		public TableSource(Table table, string alias)
 			: base(alias)
 		{
 			this.table = table;
 		}
 
+		public Table Table
+		{
+			get { return table; }
+		}
+
+		public Field Field(string name)
+		{
+			return new Field(this, name);
+		}
+
+		public Field All()
+		{
+			return Dynamic.Field.All(this);
+		}
 	}
 }

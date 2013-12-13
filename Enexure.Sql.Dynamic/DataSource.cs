@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic
 {
-	public class DataSource
+	public abstract class DataSource : Expression
 	{
 		private readonly string alias;
 
-		public DataSource(string alias)
+		protected DataSource(string alias)
 		{
 			this.alias = alias;
+		}
+
+		public string Alias
+		{
+			get { return alias; }
 		}
 	}
 }
