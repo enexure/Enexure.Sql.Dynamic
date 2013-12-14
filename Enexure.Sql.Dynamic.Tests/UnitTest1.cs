@@ -25,7 +25,7 @@ namespace Enexure.Sql.Dynamic.Tests
 				"select [a].[Id], [b].*" + Environment.NewLine +
 				"from [TableA] [a]" + Environment.NewLine +
 				"join [TableB] [b] on [a].[Id] = [b].[Fk]" + Environment.NewLine +
-				"where [a].[Id] = @a";
+				"where [a].[Id] = @p";
 
 			Assert.AreEqual(expected, sql);
 		}

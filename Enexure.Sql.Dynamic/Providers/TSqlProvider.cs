@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
-using Enexure.Sql.Dynamic.Helpers;
+using System.Data.SqlClient;
 
 namespace Enexure.Sql.Dynamic.Providers
 {
@@ -14,8 +14,14 @@ namespace Enexure.Sql.Dynamic.Providers
 			private readonly StringBuilder builder;
 			private readonly Dictionary<Type, Action<Expression>> mappings;
 
+			//IDbParameterCollection
+			private readonly List<SqlParameter> parameters;
+			private int idCounter;
+
 			public Provider(Query query)
 			{
+				parameters = new List<SqlParameter>();
+
 				builder = new StringBuilder();
 
 				mappings = new Dictionary<Type, Action<Expression>>() {
@@ -27,20 +33,30 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(SelectExpression), x => Expand((SelectExpression)x) },
 					{ typeof(Field), x => Expand((Field)x) },
 					{ typeof(EqualityExpression), x => Expand((EqualityExpression)x) },
+					{ typeof(ConstantExpression), x => Expand((ConstantExpression)x) },
 				};
 
 				Expand(query);
 			}
 
+			private string AddParameter(object value)
+			{
+				var paramName = "p" + idCounter++;
+				parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
+
+				return "@" + paramName;
+			}
+
 			private void Expand(Expression expression)
 			{
 				var type = expression.GetType();
+				Action<Expression> expander;
 				try {
-					mappings[type].Invoke(expression);
+					expander = mappings[type];
 				} catch (Exception) {
-
 					throw new Exception(string.Format("Could not expand {0}", type.Name));
 				}
+				expander.Invoke(expression);
 			}
 			
 
@@ -52,16 +68,16 @@ namespace Enexure.Sql.Dynamic.Providers
 
 				builder.Append("from ");
 				Expand(query.FromClause);
-				builder.AppendLine();
-
+	
 				if (!query.WhereClause.IsEmpty) {
+					builder.AppendLine();
 					Expand(query.Joins);
 				}
 
 				if (!query.WhereClause.IsEmpty) {
-					builder.Append("where ");
-					Expand(query.FromClause);
 					builder.AppendLine();
+					builder.Append("where ");
+					Expand(query.WhereClause);
 				}
 
 				
@@ -69,12 +85,14 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(IEnumerable<Join> tableSource)
 			{
+				var head = true;
 				foreach (var join in tableSource) {
+					if (head) { head = false; } else { builder.AppendLine(); }
+
 					builder.AppendFormat("join ");
 					Expand(join.Source);
 					builder.AppendFormat(" on ");
 					Expand(join.Expression);
-					builder.AppendLine();
 				}
 			}
 
@@ -123,6 +141,11 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 			}
 
+			private void Expand(ConstantExpression constantExpression)
+			{
+				builder.Append(AddParameter(constantExpression.Value));
+			}
+
 			private void Expand(SelectExpression selectExpression)
 			{
 				Expand(selectExpression.Expression);
@@ -132,7 +155,27 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 			}
 
-			public override string ToString()
+			private void Expand(Conjunction conjunction)
+			{
+				var head = true;
+				foreach (var item in conjunction) {
+					if (head) { head = false; } else { builder.Append(" and "); }
+					Expand(item);
+				}
+			}
+
+			public IDbCommand GetCommand()
+			{
+				var command = new SqlCommand() {
+					CommandText = GetSqlString(),
+					CommandType = CommandType.Text,
+				};
+
+				command.Parameters.AddRange(parameters.ToArray());
+				return command;
+			}
+
+			public string GetSqlString()
 			{
 				return builder.ToString();
 			}
@@ -140,12 +183,12 @@ namespace Enexure.Sql.Dynamic.Providers
 
 		public static IDbCommand GetCommand(Query query)
 		{
-			throw new NotImplementedException();
+			return new Provider(query).GetCommand();
 		}
 
 		public static string GetSqlString(Query query)
 		{
-			return new Provider(query).ToString();
+			return new Provider(query).GetSqlString();
 		}
 
 	}

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Enexure.Sql.Dynamic
 {
-	public class Conjunction : Expression
+	public class Conjunction : Expression, IEnumerable<BooleanExpression>
 	{
 		private readonly ImmutableList<BooleanExpression> expressions;
 
@@ -38,6 +38,16 @@ namespace Enexure.Sql.Dynamic
 
 		public bool IsEmpty {
 			get { return expressions.IsEmpty; }
+		}
+
+		public IEnumerator<BooleanExpression> GetEnumerator()
+		{
+			return expressions.GetEnumerator();
+		}
+
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
 		}
 	}
 }

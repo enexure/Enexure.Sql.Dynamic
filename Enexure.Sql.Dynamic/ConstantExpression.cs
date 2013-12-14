@@ -14,5 +14,11 @@ namespace Enexure.Sql.Dynamic
 		{
 			this.value = value;
 		}
+
+		public object Value { 
+			get {
+				return value;
+			}
+		}
 	}
 }
