@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using System.Runtime.Remoting.Messaging;
@@ -13,6 +14,7 @@ namespace Enexure.Sql.Dynamic.Providers
 		{
 			private readonly StringBuilder builder;
 			private readonly Dictionary<Type, Action<Expression>> mappings;
+			private readonly Dictionary<ConstantExpression, int> constants;
 
 			//IDbParameterCollection
 			private readonly List<SqlParameter> parameters;
@@ -21,6 +23,7 @@ namespace Enexure.Sql.Dynamic.Providers
 			public Provider(Query query)
 			{
 				parameters = new List<SqlParameter>();
+				constants = new Dictionary<ConstantExpression, int>();
 
 				builder = new StringBuilder();
 
@@ -37,14 +40,6 @@ namespace Enexure.Sql.Dynamic.Providers
 				};
 
 				Expand(query);
-			}
-
-			private string AddParameter(object value)
-			{
-				var paramName = "p" + idCounter++;
-				parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
-
-				return "@" + paramName;
 			}
 
 			private void Expand(Expression expression)
@@ -68,8 +63,8 @@ namespace Enexure.Sql.Dynamic.Providers
 
 				builder.Append("from ");
 				Expand(query.FromClause);
-	
-				if (!query.WhereClause.IsEmpty) {
+
+				if (query.Joins.Any()) {
 					builder.AppendLine();
 					Expand(query.Joins);
 				}
@@ -143,7 +138,16 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(ConstantExpression constantExpression)
 			{
-				builder.Append(AddParameter(constantExpression.Value));
+				var id = 0;
+				if (!constants.TryGetValue(constantExpression, out id)) {
+					id = idCounter++;
+				}
+
+				var paramName = "p" + id;
+				var value = constantExpression.Value;
+
+				parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
+				builder.Append("@" + paramName);
 			}
 
 			private void Expand(SelectExpression selectExpression)
