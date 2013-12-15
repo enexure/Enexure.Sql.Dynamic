@@ -16,9 +16,9 @@ namespace Enexure.Sql.Dynamic
 			get { return name; }
 		}
 
-		public SelectExpression All()
+		public Select All()
 		{
-			return new SelectExpression(Dynamic.Field.All(new TableSource(this)));
+			return new Select(Dynamic.Field.All(new TableSource(this)));
 		}
 
 		public TableSource As(string alias)

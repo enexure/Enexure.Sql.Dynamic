@@ -10,12 +10,12 @@ namespace Enexure.Sql.Dynamic
 	{
 		public static Expression Const(object value)
 		{
-			return new ConstantExpression(value);
+			return new Constant(value);
 		}
 
-		public static EqualityExpression Eq(Expression expressionLeft, Expression expressionRight)
+		public static Equality Eq(Expression expressionLeft, Expression expressionRight)
 		{
-			return new EqualityExpression(expressionLeft, expressionRight);
+			return new Equality(expressionLeft, expressionRight);
 		}
 	}
 }

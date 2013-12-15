@@ -23,14 +23,24 @@ namespace Enexure.Sql.Dynamic
 			get { return name; }
 		}
 
-		public SelectExpression As(string alias)
+		public Select As(string alias)
 		{
-			return new SelectExpression(this, alias);
+			return new Select(this, alias);
+		}
+
+		public Select AsSelf()
+		{
+			return new Select(this, string.Empty);
 		}
 
 		public static Field All(DataSource dataSource)
 		{
 			return new Field(dataSource, "*");
+		}
+
+		public static Field All()
+		{
+			return new Field(null, "*");
 		}
 	}
 }

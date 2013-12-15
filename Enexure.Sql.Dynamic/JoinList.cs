@@ -7,26 +7,26 @@ using System.Text;
 
 namespace Enexure.Sql.Dynamic
 {
-	public class Conjunction : ExpressionList<Boolean>
+	public class JoinList : ExpressionList<Join>
 	{
-		public Conjunction()
+		public JoinList()
 			: base()
 		{
 		}
 
-		public Conjunction(Boolean expression)
+		public JoinList(Join expression)
 			: base(expression)
 		{
 		}
 
-		private Conjunction(Conjunction list, Boolean expression)
+		private JoinList(JoinList list, Join expression)
 			: base(list, expression)
 		{
 		}
 
-		public Conjunction Add(Boolean booleanExpression)
+		public JoinList Add(Join join)
 		{
-			return new Conjunction(this, booleanExpression);
+			return new JoinList(this, join);
 		}
 	}
 }

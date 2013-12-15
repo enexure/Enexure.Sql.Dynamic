@@ -51,8 +51,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BasicQueryTest.cs" />
+    <Compile Include="AggregateTest.cs" />
+    <Compile Include="GroupByTest.cs" />
+    <Compile Include="DerivedTablesTest.cs" />
     <Compile Include="ParametersTest.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="ExampleQueryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

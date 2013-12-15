@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic
 {
-	public class ConstantExpression : Expression
+	public class Constant : Expression
 	{
 		private readonly object value;
 
-		public ConstantExpression(object value)
+		public Constant(object value)
 		{
 			this.value = value;
 		}

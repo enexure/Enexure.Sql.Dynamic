@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic
 {
-	public class SelectExpression : Expression
+	public class Select : Expression
 	{
 		private readonly Expression expression;
 		private readonly string alias;
 
-		public SelectExpression(Expression expression)
+		protected Select()
+		{
+		}
+
+		public Select(Expression expression)
 		{
 			this.expression = expression;
 		}
 
-		public SelectExpression(Expression expression, string alias)
+		public Select(Expression expression, string alias)
 		{
 			this.expression = expression;
 			this.alias = alias;
@@ -30,6 +34,11 @@ namespace Enexure.Sql.Dynamic
 		public string Alias
 		{
 			get { return alias; }
+		}
+
+		public Select Count()
+		{
+			return new Count(this);
 		}
 	}
 }

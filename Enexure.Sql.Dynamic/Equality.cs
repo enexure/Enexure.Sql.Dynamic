@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic
 {
-	public class EqualityExpression : BooleanExpression
+	public class Equality : Boolean
 	{
 		private readonly Expression expressionLeft;
 		private readonly Expression expressionRight;
 
-		public EqualityExpression(Expression expressionLeft, Expression expressionRight)
+		public Equality(Expression expressionLeft, Expression expressionRight)
 		{
 			this.expressionLeft = expressionLeft;
 			this.expressionRight = expressionRight;

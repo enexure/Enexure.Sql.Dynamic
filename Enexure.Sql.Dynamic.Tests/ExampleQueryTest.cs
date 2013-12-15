@@ -5,10 +5,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Enexure.Sql.Dynamic.Tests
 {
 	[TestClass]
-	public class UnitTest1
+	public class ExampleQueryTest
 	{
 		[TestMethod]
-		public void TestMethod1()
+		public void TypicalQuery()
 		{
 			var tableA = new Table("TableA").As("a");
 			var tableB = new Table("TableB").As("b");

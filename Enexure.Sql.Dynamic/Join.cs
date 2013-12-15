@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Enexure.Sql.Dynamic
 {
-	public class Join
+	public class Join : Expression
 	{
 		private readonly TableSource source;
-		private readonly BooleanExpression expression;
+		private readonly Boolean expression;
 
-		public Join(TableSource source, BooleanExpression expression)
+		public Join(TableSource source, Boolean expression)
 		{
 			this.source = source;
 			this.expression = expression;
@@ -21,7 +21,7 @@ namespace Enexure.Sql.Dynamic
 			get { return source; }
 		}
 
-		public BooleanExpression Expression
+		public Boolean Expression
 		{
 			get { return expression; }
 		}

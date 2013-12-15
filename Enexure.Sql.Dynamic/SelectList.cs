@@ -8,61 +8,47 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic
 {
-	public class SelectList : Expression, IEnumerable<SelectExpression>
+	public class SelectList : ExpressionList<Select>
 	{
-		private readonly ImmutableList<SelectExpression> selectList;
-
 		public SelectList()
+			: base()
 		{
-			selectList = ImmutableList<SelectExpression>.Empty;
 		}
 
-		private SelectList(ImmutableList<SelectExpression> selectList)
+		public SelectList(SelectList selectList, Select selectExpression)
+			: base(selectList, selectExpression)
 		{
-			this.selectList = selectList;
-		}
-
-		public SelectList(SelectList selectList, SelectExpression selectExpression)
-		{
-			this.selectList = selectList.selectList.Add(selectExpression);
 		}
 
 		public SelectList(SelectList selectList, Expression expression)
-			: this(selectList, new SelectExpression(expression))
+			: this(selectList, new Select(expression))
 		{
 		}
 
 		public SelectList(SelectList selectList, IEnumerable<Expression> expressions)
+			: base(selectList.expressions.AddRange(
+				expressions.Select(x => {
+					var expression = x as Select;
+					return expression ?? new Select(x);
+				})
+			))
 		{
-			this.selectList = selectList.selectList.AddRange(expressions.Select(x => {
-				var expression = x as SelectExpression;
-				return expression ?? new SelectExpression(x);
-			}));
 		}
 
-		public SelectList Add(SelectExpression selectExpression)
+		public SelectList Add(Select selectExpression)
 		{
 			return new SelectList(this, selectExpression);
 		}
 
-		public SelectList Add(IEnumerable<Expression> expressions)
+		public virtual SelectList Add(IEnumerable<Expression> expressions)
 		{
 			return new SelectList(this, expressions);
 		}
 
-		public SelectList Add(Expression expression)
+		public virtual SelectList Add(Expression expression)
 		{
 			return new SelectList(this, expression);
 		}
 
-		public IEnumerator<SelectExpression> GetEnumerator()
-		{
-			return selectList.GetEnumerator();
-		}
-
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
 	}
 }

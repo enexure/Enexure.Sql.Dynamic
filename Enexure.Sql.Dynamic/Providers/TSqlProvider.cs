@@ -14,16 +14,15 @@ namespace Enexure.Sql.Dynamic.Providers
 		{
 			private readonly StringBuilder builder;
 			private readonly Dictionary<Type, Action<Expression>> mappings;
-			private readonly Dictionary<ConstantExpression, int> constants;
+			private readonly Dictionary<Constant, int> constants;
 
-			//IDbParameterCollection
 			private readonly List<SqlParameter> parameters;
 			private int idCounter;
 
 			public Provider(Query query)
 			{
 				parameters = new List<SqlParameter>();
-				constants = new Dictionary<ConstantExpression, int>();
+				constants = new Dictionary<Constant, int>();
 
 				builder = new StringBuilder();
 
@@ -32,17 +31,21 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Table), x => Expand((Table)x) },
 					{ typeof(TableSource), x => Expand((TableSource)x) },
 					{ typeof(DerivedTable), x => Expand((DerivedTable)x) },
+					{ typeof(Star), x => Expand((Star)x) },
 					{ typeof(SelectList), x => Expand((SelectList)x) },
-					{ typeof(SelectExpression), x => Expand((SelectExpression)x) },
+					{ typeof(Select), x => Expand((Select)x) },
 					{ typeof(Field), x => Expand((Field)x) },
-					{ typeof(EqualityExpression), x => Expand((EqualityExpression)x) },
-					{ typeof(ConstantExpression), x => Expand((ConstantExpression)x) },
+					{ typeof(Equality), x => Expand((Equality)x) },
+					{ typeof(Constant), x => Expand((Constant)x) },
+					{ typeof(Conjunction), x => Expand((Conjunction)x) },
+					{ typeof(JoinList), x => Expand((JoinList)x) },
+					{ typeof(GroupByClause), x => Expand((GroupByClause)x) },
 				};
 
 				Expand(query);
 			}
 
-			private void Expand(Expression expression)
+			private void ExpandExpression(Expression expression)
 			{
 				var type = expression.GetType();
 				Action<Expression> expander;
@@ -58,36 +61,36 @@ namespace Enexure.Sql.Dynamic.Providers
 			private void Expand(Query query)
 			{
 				builder.Append("select ");
-				Expand(query.SelectList);
+				ExpandExpression(query.SelectList);
 				builder.AppendLine();
 
 				builder.Append("from ");
-				Expand(query.FromClause);
+				ExpandExpression(query.FromClause);
 
-				if (query.Joins.Any()) {
+				if (!query.Joins.IsEmpty) {
 					builder.AppendLine();
-					Expand(query.Joins);
+					ExpandExpression(query.Joins);
 				}
 
 				if (!query.WhereClause.IsEmpty) {
 					builder.AppendLine();
 					builder.Append("where ");
-					Expand(query.WhereClause);
+					ExpandExpression(query.WhereClause);
 				}
 
-				
+				ExpandExpression(query.GroupByClause);
 			}
 
-			private void Expand(IEnumerable<Join> tableSource)
+			private void Expand(JoinList joins)
 			{
 				var head = true;
-				foreach (var join in tableSource) {
+				foreach (var join in joins) {
 					if (head) { head = false; } else { builder.AppendLine(); }
 
 					builder.AppendFormat("join ");
-					Expand(join.Source);
+					ExpandExpression(join.Source);
 					builder.AppendFormat(" on ");
-					Expand(join.Expression);
+					ExpandExpression(join.Expression);
 				}
 			}
 
@@ -98,15 +101,19 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(TableSource tableSource)
 			{
-				builder.AppendFormat("[{0}] [{1}]", tableSource.Table.Name, tableSource.Alias);
+				ExpandExpression(tableSource.Table);
+
+				if (!string.IsNullOrWhiteSpace(tableSource.Alias)) {
+					builder.AppendFormat(" [{0}]", tableSource.Alias);
+				}
 			}
 
 			private void Expand(DerivedTable derivedTable)
 			{
-				throw new NotImplementedException();
-
-				//Expand(derivedTable.);
-				//builder.AppendFormat(" [{0}]", derivedTable.Alias);
+				builder.AppendFormat("(");
+				ExpandExpression(derivedTable.Query);
+				builder.AppendFormat(")");
+				builder.AppendFormat(" [{0}]", derivedTable.Alias);
 			}
 
 			private void Expand(Field field)
@@ -120,11 +127,16 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 			}
 
-			private void Expand(EqualityExpression equalityExpression)
+			private void Expand(Equality equalityExpression)
 			{
-				Expand(equalityExpression.ExpressionLeft);
+				ExpandExpression(equalityExpression.ExpressionLeft);
 				builder.Append(" = ");
-				Expand(equalityExpression.ExpressionRight);
+				ExpandExpression(equalityExpression.ExpressionRight);
+			}
+
+			private void Expand(Star star)
+			{
+				builder.Append("*");
 			}
 
 			private void Expand(SelectList selectList)
@@ -132,11 +144,11 @@ namespace Enexure.Sql.Dynamic.Providers
 				var head = true;
 				foreach (var selectExpression in selectList) {
 					if (head) { head = false; } else { builder.Append(", "); }
-					Expand(selectExpression);
+					ExpandExpression(selectExpression);
 				}
 			}
 
-			private void Expand(ConstantExpression constantExpression)
+			private void Expand(Constant constantExpression)
 			{
 				string prexif = "p";
 
@@ -153,9 +165,9 @@ namespace Enexure.Sql.Dynamic.Providers
 				builder.Append("@" + prexif + id);
 			}
 
-			private void Expand(SelectExpression selectExpression)
+			private void Expand(Select selectExpression)
 			{
-				Expand(selectExpression.Expression);
+				ExpandExpression(selectExpression.Expression);
 
 				if (!string.IsNullOrWhiteSpace(selectExpression.Alias)) {
 					builder.AppendFormat(" as {0}", selectExpression.Alias);
@@ -167,7 +179,21 @@ namespace Enexure.Sql.Dynamic.Providers
 				var head = true;
 				foreach (var item in conjunction) {
 					if (head) { head = false; } else { builder.AppendLine().Append("and "); }
-					Expand(item);
+					ExpandExpression(item);
+				}
+			}
+
+			private void Expand(GroupByClause groupByClause)
+			{
+				if (!groupByClause.IsEmpty) {
+					builder.AppendLine();
+					builder.Append("group by ");
+
+					var head = true;
+					foreach (var item in groupByClause) {
+						if (head) { head = false; } else { builder.Append(", "); }
+						ExpandExpression(item);
+					}
 				}
 			}
 

@@ -8,12 +8,18 @@ namespace Enexure.Sql.Dynamic
 {
 	public class DerivedTable : DataSource
 	{
-		private readonly DataSource source;
+		private readonly Query query;
 
-		public DerivedTable(DataSource source, string alias)
+		public DerivedTable(Query query, string alias)
 			: base(alias)
 		{
-			this.source = source;
+			this.query = query;
+		}
+
+		public Query Query {
+			get {
+				return query;
+			}
 		}
 	}
 }

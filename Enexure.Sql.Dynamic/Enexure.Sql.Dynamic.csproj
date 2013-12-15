@@ -49,20 +49,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EqualityExpression.cs" />
+    <Compile Include="AddedToSelectListAfterSelectingStar.cs" />
+    <Compile Include="Aggregate.cs" />
+    <Compile Include="Count.cs" />
+    <Compile Include="GroupByClause.cs" />
+    <Compile Include="JoinList.cs" />
+    <Compile Include="ExpressionList.cs" />
+    <Compile Include="Equality.cs" />
     <Compile Include="Conjunction.cs" />
-    <Compile Include="ConstantExpression.cs" />
+    <Compile Include="Constant.cs" />
     <Compile Include="DataSource.cs" />
     <Compile Include="DerivedTable.cs" />
-    <Compile Include="BooleanExpression.cs" />
+    <Compile Include="Boolean.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="Join.cs" />
+    <Compile Include="AliasOnMultipleColumnsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\TSqlProvider.cs" />
     <Compile Include="Query.cs" />
-    <Compile Include="SelectExpression.cs" />
+    <Compile Include="Select.cs" />
     <Compile Include="SelectList.cs" />
+    <Compile Include="Star.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="TableSource.cs" />
   </ItemGroup>

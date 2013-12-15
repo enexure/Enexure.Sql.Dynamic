@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic
 {
-	public abstract class BooleanExpression : Expression
+	public abstract class Aggregate : Select
 	{
+		public Aggregate()
+			: base()
+		{
+		}
 
+		public abstract string Function { get; }
 	}
 }

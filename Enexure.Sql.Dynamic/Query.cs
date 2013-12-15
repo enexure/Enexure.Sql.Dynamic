@@ -11,9 +11,9 @@ namespace Enexure.Sql.Dynamic
 	{
 		private readonly SelectList selectList;
 		private readonly DataSource fromClause;
-		private readonly ImmutableList<Join> joins;
+		private readonly JoinList joins;
 		private readonly Conjunction whereClause;
-		// GroupByClause
+		private readonly GroupByClause groupByClause;
 
 		public Query(DataSource fromClause)
 		{
@@ -21,7 +21,8 @@ namespace Enexure.Sql.Dynamic
 
 			selectList = new SelectList();
 			whereClause = new Conjunction();
-			joins = ImmutableList<Join>.Empty;
+			joins = new JoinList();
+			groupByClause = new GroupByClause();
 		}
 
 		private Query(Query query, SelectList selectList)
@@ -42,10 +43,16 @@ namespace Enexure.Sql.Dynamic
 			this.joins = query.joins.Add(join);
 		}
 
-		private Query(Query query, ImmutableList<Join> joins)
+		private Query(Query query, JoinList joins)
 			: this(query)
 		{
 			this.joins = joins;
+		}
+
+		private Query(Query query, GroupByClause groupByClause)
+			: this(query)
+		{
+			this.groupByClause = groupByClause;
 		}
 
 		private Query(Query query)
@@ -54,6 +61,7 @@ namespace Enexure.Sql.Dynamic
 			whereClause = query.whereClause;
 			joins = query.joins;
 			selectList = query.selectList;
+			groupByClause = query.groupByClause;
 		}
 
 		public SelectList SelectList
@@ -71,9 +79,19 @@ namespace Enexure.Sql.Dynamic
 			get { return whereClause; }
 		}
 
-		public IEnumerable<Join> Joins
+		public JoinList Joins
 		{
 			get { return joins; }
+		}
+
+		public GroupByClause GroupByClause
+		{
+			get { return groupByClause; }
+		}
+
+		public static Query From(Table table)
+		{
+			return new Query(new TableSource(table));
 		}
 
 		public static Query From(DataSource dataSource)
@@ -81,12 +99,12 @@ namespace Enexure.Sql.Dynamic
 			return new Query(dataSource);
 		}
 
-		public Query Join(TableSource source, BooleanExpression expression)
+		public Query Join(TableSource source, Boolean expression)
 		{
 			return new Query(this, new Join(source, expression));
 		}
 
-		public Query Where(BooleanExpression expression)
+		public Query Where(Boolean expression)
 		{
 			return new Query(this, (WhereClause == null) ? new Conjunction(expression) : whereClause.Add(expression));
 		}
@@ -96,7 +114,7 @@ namespace Enexure.Sql.Dynamic
 			return new Query(this, selectList.Add(expressions));
 		}
 
-		public Query Select(SelectExpression selectExpression)
+		public Query Select(Select selectExpression)
 		{
 			return new Query(this, selectList.Add(selectExpression));
 		}
@@ -106,5 +124,24 @@ namespace Enexure.Sql.Dynamic
 			return new Query(this, selectList.Add(field));
 		}
 
+		public Query SelectAll()
+		{
+			return new Query(this, selectList.Add(new Star()));
+		}
+
+		public Query GroupBy(Field field)
+		{
+			return new Query(this, groupByClause.Add(field));
+		}
+
+		public Query GroupBy(Select selectExpression)
+		{
+			return new Query(this, groupByClause.Add(selectExpression));
+		}
+
+		public DerivedTable As(string alias)
+		{
+			return new DerivedTable(this, alias);
+		}
 	}
 }
