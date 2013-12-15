@@ -138,16 +138,19 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(ConstantExpression constantExpression)
 			{
+				string prexif = "p";
+
 				var id = 0;
 				if (!constants.TryGetValue(constantExpression, out id)) {
 					id = idCounter++;
+
+					var paramName = prexif + id;
+					var value = constantExpression.Value;
+					parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
+					constants.Add(constantExpression, id);
 				}
 
-				var paramName = "p" + id;
-				var value = constantExpression.Value;
-
-				parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
-				builder.Append("@" + paramName);
+				builder.Append("@" + prexif + id);
 			}
 
 			private void Expand(SelectExpression selectExpression)
@@ -163,7 +166,7 @@ namespace Enexure.Sql.Dynamic.Providers
 			{
 				var head = true;
 				foreach (var item in conjunction) {
-					if (head) { head = false; } else { builder.Append(" and "); }
+					if (head) { head = false; } else { builder.AppendLine().Append("and "); }
 					Expand(item);
 				}
 			}
