@@ -40,6 +40,8 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Conjunction), x => Expand((Conjunction)x) },
 					{ typeof(JoinList), x => Expand((JoinList)x) },
 					{ typeof(GroupByClause), x => Expand((GroupByClause)x) },
+					{ typeof(Count), x => Expand((Aggregate)x) },
+					{ typeof(Sum), x => Expand((Aggregate)x) },
 				};
 
 				Expand(query);
@@ -195,6 +197,14 @@ namespace Enexure.Sql.Dynamic.Providers
 						ExpandExpression(item);
 					}
 				}
+			}
+
+			private void Expand(Aggregate aggregate)
+			{
+				builder.Append(aggregate.Function);
+				builder.Append("(");
+				ExpandExpression(aggregate.Expression);
+				builder.Append(")");
 			}
 
 			public IDbCommand GetCommand()

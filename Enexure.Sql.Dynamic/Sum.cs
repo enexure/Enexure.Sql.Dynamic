@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic
 {
-	public abstract class Aggregate : Select
+	public class Sum : Aggregate
 	{
-		public Aggregate(Expression expression)
+		public Sum(Expression expression)
 			: base(expression)
 		{
 		}
 
-		public abstract string Function { get; }
+		public override string Function
+		{
+			get { return "sum"; }
+		}
 	}
 }

@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AddedToSelectListAfterSelectingStar.cs" />
     <Compile Include="Aggregate.cs" />
+    <Compile Include="Sum.cs" />
     <Compile Include="Count.cs" />
     <Compile Include="GroupByClause.cs" />
     <Compile Include="JoinList.cs" />

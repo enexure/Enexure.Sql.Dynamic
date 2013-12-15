@@ -1,6 +1,15 @@
-$ApiKey = ""
+. ".build\init.ps1"
 
-$NuGetPath = Resolve-Path "..\.nuget\NuGet.exe"
+$SolutionDir = Resolve-Path .
+
+$ApiKey = Get-Content "$SolutionDir\api-key.txt"
+
+# Check if the Api Key Exists
+
+
+# ...
+
+
 $BasePath = Resolve-Path "..\Enexure.Sql.Dynamic"
 $ArtifactsPath = Resolve-Path ".\Artifacts"
 

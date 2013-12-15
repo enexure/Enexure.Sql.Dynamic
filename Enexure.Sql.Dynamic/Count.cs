@@ -7,17 +7,9 @@ namespace Enexure.Sql.Dynamic
 {
 	public class Count : Aggregate
 	{
-		private readonly Expression expression;
-
 		public Count(Expression expression)
+			: base(expression)
 		{
-			this.expression = expression;
-		}
-
-		public Expression Expression {
-			get {
-				return expression;
-			}
 		}
 
 		public override string Function

@@ -40,5 +40,10 @@ namespace Enexure.Sql.Dynamic
 		{
 			return new Count(this);
 		}
+
+		public Select Sum()
+		{
+			return new Sum(this);
+		}
 	}
 }

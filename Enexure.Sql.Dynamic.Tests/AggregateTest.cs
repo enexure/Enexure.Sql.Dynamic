@@ -33,7 +33,19 @@ namespace Enexure.Sql.Dynamic.Tests
 		[TestMethod]
 		public void Sum()
 		{
-			Assert.Fail();
+			var table = new Table("Table");
+
+			var query = Query
+				.From(table)
+				.Select(table.Field("Name").AsSelf().Sum());
+
+			var sql = TSqlProvider.GetSqlString(query);
+
+			var expected =
+				"select sum([Table].[Name])" + Environment.NewLine +
+				"from [Table]";
+
+			Assert.AreEqual(expected, sql);
 		}
 	}
 }
