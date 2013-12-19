@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Enexure.Sql.Dynamic
+namespace Enexure.Sql.Dynamic.Queries
 {
 	public sealed class Table : Expression
 	{
@@ -18,7 +18,7 @@ namespace Enexure.Sql.Dynamic
 
 		public Select All()
 		{
-			return new Select(Dynamic.Field.All(new TableSource(this)));
+			return new Select(Queries.Field.All(new TableSource(this)));
 		}
 
 		public TableSource As(string alias)

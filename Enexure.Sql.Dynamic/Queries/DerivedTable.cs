@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Enexure.Sql.Dynamic
+namespace Enexure.Sql.Dynamic.Queries
 {
-	public class DerivedTable : DataSource
+	public class DerivedTable : TabularDataSource
 	{
 		private readonly Query query;
 

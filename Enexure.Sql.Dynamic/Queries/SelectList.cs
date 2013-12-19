@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Enexure.Sql.Dynamic
+namespace Enexure.Sql.Dynamic.Queries
 {
 	public class SelectList : ExpressionList<Select>
 	{

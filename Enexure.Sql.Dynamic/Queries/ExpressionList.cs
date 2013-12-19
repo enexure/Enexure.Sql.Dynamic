@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace Enexure.Sql.Dynamic
+namespace Enexure.Sql.Dynamic.Queries
 {
 	public abstract class ExpressionList<T> : Expression, IEnumerable<T>
 		where T : Expression

@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Data;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Data.SqlClient;
+using Enexure.Sql.Dynamic.Queries;
 
 namespace Enexure.Sql.Dynamic.Providers
 {
@@ -40,8 +40,11 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Conjunction), x => Expand((Conjunction)x) },
 					{ typeof(JoinList), x => Expand((JoinList)x) },
 					{ typeof(GroupByClause), x => Expand((GroupByClause)x) },
-					{ typeof(Count), x => Expand((Aggregate)x) },
-					{ typeof(Sum), x => Expand((Aggregate)x) },
+					{ typeof(Count), x => Expand((Function)x) },
+					{ typeof(Sum), x => Expand((Function)x) },
+					{ typeof(Function), x => Expand((Function)x) },
+					{ typeof(InValues), x => Expand((InValues)x) },
+					{ typeof(Concatenation), x => Expand((Concatenation)x) },
 				};
 
 				Expand(query);
@@ -83,15 +86,28 @@ namespace Enexure.Sql.Dynamic.Providers
 				ExpandExpression(query.GroupByClause);
 			}
 
+			// ReSharper disable once ParameterTypeCanBeEnumerable.Local
 			private void Expand(JoinList joins)
 			{
+				var joinTypes = new Dictionary<JoinType, string>() {
+					{ JoinType.Inner, "inner" },
+					{ JoinType.LeftOuter, "left outer" },
+					{ JoinType.RightOuter, "right outer" },
+					{ JoinType.FullOuter, "full outer" },
+					{ JoinType.Cross, "cross" },
+				};
+
 				var head = true;
 				foreach (var join in joins) {
 					if (head) { head = false; } else { builder.AppendLine(); }
 
-					builder.AppendFormat("join ");
+					if (join.JoinType != JoinType.Inner) {
+						builder.Append(joinTypes[join.JoinType]).Append(" ");
+					}
+
+					builder.Append("join ");
 					ExpandExpression(join.Source);
-					builder.AppendFormat(" on ");
+					builder.Append(" on ");
 					ExpandExpression(join.Expression);
 				}
 			}
@@ -120,7 +136,7 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(Field field)
 			{
-				var source = field.DataSource.Alias ?? ((TableSource)field.DataSource).Table.Name;
+				var source = field.TabularDataSource.Alias ?? ((TableSource)field.TabularDataSource).Table.Name;
 
 				if (field.Name == "*") {
 					builder.AppendFormat("[{0}].*", source);
@@ -176,6 +192,15 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 			}
 
+			private void Expand(Concatenation concatenation)
+			{
+				var head = true;
+				foreach (var item in concatenation.Expressions) {
+					if (head) { head = false; } else { builder.Append(" + "); }
+					ExpandExpression(item);
+				}
+			}
+
 			private void Expand(Conjunction conjunction)
 			{
 				var head = true;
@@ -199,11 +224,25 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 			}
 
-			private void Expand(Aggregate aggregate)
+			private void Expand(Function function)
 			{
-				builder.Append(aggregate.Function);
+				builder.Append(function.FunctionName);
 				builder.Append("(");
-				ExpandExpression(aggregate.Expression);
+				ExpandExpression(function.Expression);
+				builder.Append(")");
+			}
+
+			private void Expand(InValues inValues)
+			{
+				ExpandExpression(inValues.Expression);
+				builder.Append(" in (");
+
+				var head = true;
+				foreach (var item in inValues.Values) {
+					if (head) { head = false; } else { builder.Append(", "); }
+					ExpandExpression(Expression.Const(item));
+				}
+
 				builder.Append(")");
 			}
 

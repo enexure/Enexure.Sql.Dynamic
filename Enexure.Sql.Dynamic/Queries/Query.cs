@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Enexure.Sql.Dynamic
+namespace Enexure.Sql.Dynamic.Queries
 {
 	public sealed class Query : Expression
 	{
 		private readonly SelectList selectList;
-		private readonly DataSource fromClause;
+		private readonly TabularDataSource fromClause;
 		private readonly JoinList joins;
 		private readonly Conjunction whereClause;
 		private readonly GroupByClause groupByClause;
 
-		public Query(DataSource fromClause)
+		public Query(TabularDataSource fromClause)
 		{
 			this.fromClause = fromClause;
 
@@ -69,7 +69,7 @@ namespace Enexure.Sql.Dynamic
 			get { return selectList; }
 		}
 
-		public DataSource FromClause
+		public TabularDataSource FromClause
 		{
 			get { return fromClause; }
 		}
@@ -94,9 +94,9 @@ namespace Enexure.Sql.Dynamic
 			return new Query(new TableSource(table));
 		}
 
-		public static Query From(DataSource dataSource)
+		public static Query From(TabularDataSource tabularDataSource)
 		{
-			return new Query(dataSource);
+			return new Query(tabularDataSource);
 		}
 
 		public Query Join(TableSource source, Boolean expression)
@@ -104,9 +104,19 @@ namespace Enexure.Sql.Dynamic
 			return new Query(this, new Join(source, expression));
 		}
 
+		public Query Join(JoinType joinType, TableSource source, Boolean expression)
+		{
+			return new Query(this, new Join(joinType, source, expression));
+		}
+
 		public Query Where(Boolean expression)
 		{
 			return new Query(this, (WhereClause == null) ? new Conjunction(expression) : whereClause.Add(expression));
+		}
+
+		public Query Select(IEnumerable<Expression> expressions)
+		{
+			return new Query(this, selectList.Add(expressions));
 		}
 
 		public Query Select(params Expression[] expressions)

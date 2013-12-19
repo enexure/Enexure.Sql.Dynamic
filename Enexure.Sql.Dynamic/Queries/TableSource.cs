@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Enexure.Sql.Dynamic
+namespace Enexure.Sql.Dynamic.Queries
 {
-	public class TableSource : DataSource
+	public class TableSource : TabularDataSource
 	{
 		private readonly Table table;
 
@@ -34,7 +34,7 @@ namespace Enexure.Sql.Dynamic
 
 		public Field All()
 		{
-			return Dynamic.Field.All(this);
+			return Queries.Field.All(this);
 		}
 	}
 }

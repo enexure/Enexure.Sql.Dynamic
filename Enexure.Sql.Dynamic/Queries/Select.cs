@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Enexure.Sql.Dynamic
+namespace Enexure.Sql.Dynamic.Queries
 {
 	public class Select : Expression
 	{
@@ -36,12 +36,12 @@ namespace Enexure.Sql.Dynamic
 			get { return alias; }
 		}
 
-		public Select Count()
+		public Count Count()
 		{
 			return new Count(this);
 		}
 
-		public Select Sum()
+		public Sum Sum()
 		{
 			return new Sum(this);
 		}

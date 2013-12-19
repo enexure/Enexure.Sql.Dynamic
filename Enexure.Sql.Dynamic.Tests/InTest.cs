@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using Enexure.Sql.Dynamic.Queries;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Enexure.Sql.Dynamic.Providers;
@@ -8,25 +6,30 @@ using Enexure.Sql.Dynamic.Providers;
 namespace Enexure.Sql.Dynamic.Tests
 {
 	/// <summary>
-	/// Summary description for BasicQueryTest
+	/// Summary description for DerivedTablesTest
 	/// </summary>
 	[TestClass]
-	public class BasicQueryTest
+	public class InTest
 	{
 		[TestMethod]
-		public void SimpleQuery()
+		public void InValues()
 		{
+			var table = new Table("Table");
+
 			var query = Query
-				.From(new Table("TableA"))
-				.SelectAll();
+				.From(table)
+				.Where(Expression.In(table.Field("Name"), new [] { "Bob", "Jack" }))
+				.Select(Field.All());
 
 			var sql = TSqlProvider.GetSqlString(query);
 
 			var expected =
 				"select *" + Environment.NewLine +
-				"from [TableA]";
+				"from [Table]" + Environment.NewLine + 
+				"where [Table].[Name] in (@p0, @p1)";
 
 			Assert.AreEqual(expected, sql);
 		}
+
 	}
 }

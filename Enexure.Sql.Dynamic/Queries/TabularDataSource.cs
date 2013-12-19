@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Enexure.Sql.Dynamic
+namespace Enexure.Sql.Dynamic.Queries
 {
-	public abstract class DataSource : Expression
+	public abstract class TabularDataSource : Expression
 	{
 		private readonly string alias;
 
-		protected DataSource(string alias)
+		protected TabularDataSource(string alias)
 		{
 			this.alias = alias;
 		}
@@ -18,6 +18,11 @@ namespace Enexure.Sql.Dynamic
 		public string Alias
 		{
 			get { return alias; }
+		}
+
+		public Field Field(string name)
+		{
+			return new Field(this, name);
 		}
 	}
 }

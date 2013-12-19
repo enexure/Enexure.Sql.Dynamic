@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using Enexure.Sql.Dynamic.Queries;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Enexure.Sql.Dynamic.Providers;
 using System.Data.SqlClient;

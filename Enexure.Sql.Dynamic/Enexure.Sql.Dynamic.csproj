@@ -49,39 +49,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddedToSelectListAfterSelectingStar.cs" />
-    <Compile Include="Aggregate.cs" />
-    <Compile Include="Sum.cs" />
-    <Compile Include="Count.cs" />
-    <Compile Include="GroupByClause.cs" />
-    <Compile Include="JoinList.cs" />
-    <Compile Include="ExpressionList.cs" />
-    <Compile Include="Equality.cs" />
-    <Compile Include="Conjunction.cs" />
-    <Compile Include="Constant.cs" />
-    <Compile Include="DataSource.cs" />
-    <Compile Include="DerivedTable.cs" />
-    <Compile Include="Boolean.cs" />
-    <Compile Include="Expression.cs" />
-    <Compile Include="Field.cs" />
-    <Compile Include="Join.cs" />
-    <Compile Include="AliasOnMultipleColumnsException.cs" />
+    <Compile Include="Queries\AddedToSelectListAfterSelectingStar.cs" />
+    <Compile Include="Queries\Aggregate.cs" />
+    <Compile Include="Queries\Concatenation.cs" />
+    <Compile Include="Queries\Function.cs" />
+    <Compile Include="Queries\In.cs" />
+    <Compile Include="Queries\InValues.cs" />
+    <Compile Include="Queries\MustHaveAtLeastOneException.cs" />
+    <Compile Include="Queries\Sum.cs" />
+    <Compile Include="Queries\Count.cs" />
+    <Compile Include="Queries\GroupByClause.cs" />
+    <Compile Include="Queries\JoinList.cs" />
+    <Compile Include="Queries\ExpressionList.cs" />
+    <Compile Include="Queries\Equality.cs" />
+    <Compile Include="Queries\Conjunction.cs" />
+    <Compile Include="Queries\Constant.cs" />
+    <Compile Include="Queries\TabularDataSource.cs" />
+    <Compile Include="Queries\DerivedTable.cs" />
+    <Compile Include="Queries\Boolean.cs" />
+    <Compile Include="Queries\Expression.cs" />
+    <Compile Include="Queries\Field.cs" />
+    <Compile Include="Queries\Join.cs" />
+    <Compile Include="Queries\AliasOnMultipleColumnsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\TSqlProvider.cs" />
-    <Compile Include="Query.cs" />
-    <Compile Include="Select.cs" />
-    <Compile Include="SelectList.cs" />
-    <Compile Include="Star.cs" />
-    <Compile Include="Table.cs" />
-    <Compile Include="TableSource.cs" />
+    <Compile Include="Queries\Query.cs" />
+    <Compile Include="Queries\Select.cs" />
+    <Compile Include="Queries\SelectList.cs" />
+    <Compile Include="Queries\Star.cs" />
+    <Compile Include="Queries\Table.cs" />
+    <Compile Include="Queries\TableSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Enexure.Sql.Dynamic.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

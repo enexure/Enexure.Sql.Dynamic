@@ -1,5 +1,6 @@
 ﻿using System;
 using Enexure.Sql.Dynamic.Providers;
+using Enexure.Sql.Dynamic.Queries;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Enexure.Sql.Dynamic.Tests
