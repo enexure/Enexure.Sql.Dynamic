@@ -285,7 +285,7 @@ namespace Enexure.Sql.Dynamic.Providers
 				if (skip.Rows > 0) {
 					builder.AppendLine().Append("offset ");
 					ExpandExpression(new Constant(skip.Rows));
-					builder.Append("rows");
+					builder.Append(" rows");
 				}
 			}
 
@@ -294,7 +294,7 @@ namespace Enexure.Sql.Dynamic.Providers
 				if (take.Rows > 0) {
 					builder.AppendLine().Append("fetch next ");
 					ExpandExpression(new Constant(take.Rows)); // Could be TabularDataSource
-					builder.Append("rows only");
+					builder.Append(" rows only");
 				}
 			}
 
