@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="OrderByTest.cs" />
     <Compile Include="InTest.cs" />
     <Compile Include="BasicQueryTest.cs" />
     <Compile Include="AggregateTest.cs" />

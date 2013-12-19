@@ -56,6 +56,10 @@
     <Compile Include="Queries\In.cs" />
     <Compile Include="Queries\InValues.cs" />
     <Compile Include="Queries\MustHaveAtLeastOneException.cs" />
+    <Compile Include="Queries\Order.cs" />
+    <Compile Include="Queries\OrderByClause.cs" />
+    <Compile Include="Queries\OrderByItem.cs" />
+    <Compile Include="Queries\Skip.cs" />
     <Compile Include="Queries\Sum.cs" />
     <Compile Include="Queries\Count.cs" />
     <Compile Include="Queries\GroupByClause.cs" />
@@ -79,6 +83,7 @@
     <Compile Include="Queries\Star.cs" />
     <Compile Include="Queries\Table.cs" />
     <Compile Include="Queries\TableSource.cs" />
+    <Compile Include="Queries\Take.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Enexure.Sql.Dynamic.nuspec" />

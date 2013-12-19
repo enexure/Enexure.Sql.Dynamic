@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,9 @@ namespace Enexure.Sql.Dynamic.Queries
 		private readonly JoinList joins;
 		private readonly Conjunction whereClause;
 		private readonly GroupByClause groupByClause;
+		private readonly OrderByClause orderByClause;
+		private readonly Skip skip;
+		private readonly Take take;
 
 		public Query(TabularDataSource fromClause)
 		{
@@ -23,6 +27,9 @@ namespace Enexure.Sql.Dynamic.Queries
 			whereClause = new Conjunction();
 			joins = new JoinList();
 			groupByClause = new GroupByClause();
+			orderByClause = new OrderByClause();
+			skip =  new Skip();
+			take = new Take();
 		}
 
 		private Query(Query query, SelectList selectList)
@@ -55,6 +62,24 @@ namespace Enexure.Sql.Dynamic.Queries
 			this.groupByClause = groupByClause;
 		}
 
+		private Query(Query query, OrderByClause orderByClause)
+			: this(query)
+		{
+			this.orderByClause = orderByClause;
+		}
+
+		private Query(Query query, Skip skip)
+			: this(query)
+		{
+			this.skip = skip;
+		}
+
+		private Query(Query query, Take take)
+			: this(query)
+		{
+			this.take = take;
+		}
+
 		private Query(Query query)
 		{
 			fromClause = query.fromClause;
@@ -62,6 +87,9 @@ namespace Enexure.Sql.Dynamic.Queries
 			joins = query.joins;
 			selectList = query.selectList;
 			groupByClause = query.groupByClause;
+			orderByClause = query.orderByClause;
+			skip = query.skip;
+			take = query.take;
 		}
 
 		public SelectList SelectList
@@ -87,6 +115,21 @@ namespace Enexure.Sql.Dynamic.Queries
 		public GroupByClause GroupByClause
 		{
 			get { return groupByClause; }
+		}
+
+		public OrderByClause OrderByClause
+		{
+			get { return orderByClause; }
+		}
+
+		public Skip SkipClause
+		{
+			get { return skip; }
+		}
+
+		public Take TakeClause
+		{
+			get { return take; }
 		}
 
 		public static Query From(Table table)
@@ -149,9 +192,39 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Query(this, groupByClause.Add(selectExpression));
 		}
 
+		public Query OrderBy(Field field)
+		{
+			return new Query(this, orderByClause.Add(new OrderByItem(field)));
+		}
+
+		public Query OrderBy(Select selectExpression)
+		{
+			return new Query(this, orderByClause.Add(new OrderByItem(selectExpression)));
+		}
+
+		public Query OrderBy(Field field, Order order)
+		{
+			return new Query(this, orderByClause.Add(new OrderByItem(field, order)));
+		}
+
+		public Query OrderBy(Select selectExpression, Order order)
+		{
+			return new Query(this, orderByClause.Add(new OrderByItem(selectExpression, order)));
+		}
+
 		public DerivedTable As(string alias)
 		{
 			return new DerivedTable(this, alias);
+		}
+
+		public Query Skip(int rows)
+		{
+			return new Query(this, new Skip(rows));
+		}
+
+		public Query Take(int rows)
+		{
+			return new Query(this, new Take(rows));
 		}
 	}
 }

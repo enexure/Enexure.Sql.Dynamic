@@ -45,6 +45,10 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Function), x => Expand((Function)x) },
 					{ typeof(InValues), x => Expand((InValues)x) },
 					{ typeof(Concatenation), x => Expand((Concatenation)x) },
+					{ typeof(Skip), x => Expand((Skip)x) },
+					{ typeof(Take), x => Expand((Take)x) },
+					{ typeof(OrderByClause), x => Expand((OrderByClause)x) },
+					{ typeof(OrderByItem), x => Expand((OrderByItem)x) },
 				};
 
 				Expand(query);
@@ -52,6 +56,10 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void ExpandExpression(Expression expression)
 			{
+				if (expression == null) {
+					return;
+				}
+
 				var type = expression.GetType();
 				Action<Expression> expander;
 				try {
@@ -84,6 +92,9 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 
 				ExpandExpression(query.GroupByClause);
+				ExpandExpression(query.OrderByClause);
+				ExpandExpression(query.SkipClause);
+				ExpandExpression(query.TakeClause);
 			}
 
 			// ReSharper disable once ParameterTypeCanBeEnumerable.Local
@@ -224,6 +235,29 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 			}
 
+			private void Expand(OrderByClause orderByClause)
+			{
+				if (!orderByClause.IsEmpty) {
+					builder.AppendLine();
+					builder.Append("order by ");
+
+					var head = true;
+					foreach (var item in orderByClause) {
+						if (head) { head = false; } else { builder.Append(", "); }
+						ExpandExpression(item);
+					}
+				}
+			}
+
+			private void Expand(OrderByItem orderByItem)
+			{
+				ExpandExpression(orderByItem.Select);
+				if (orderByItem.ExplicitOrder) {
+					builder.Append(" ").Append(orderByItem.Order == Order.Ascending ? "asc" : "desc");
+				}
+			}
+
+
 			private void Expand(Function function)
 			{
 				builder.Append(function.FunctionName);
@@ -244,6 +278,24 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 
 				builder.Append(")");
+			}
+
+			private void Expand(Skip skip)
+			{
+				if (skip.Rows > 0) {
+					builder.AppendLine().Append("offset ");
+					ExpandExpression(new Constant(skip.Rows));
+					builder.Append("rows");
+				}
+			}
+
+			private void Expand(Take take)
+			{
+				if (take.Rows > 0) {
+					builder.AppendLine().Append("fetch next ");
+					ExpandExpression(new Constant(take.Rows)); // Could be TabularDataSource
+					builder.Append("rows only");
+				}
 			}
 
 			public IDbCommand GetCommand()
