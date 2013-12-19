@@ -28,8 +28,6 @@ namespace Enexure.Sql.Dynamic.Queries
 			joins = new JoinList();
 			groupByClause = new GroupByClause();
 			orderByClause = new OrderByClause();
-			skip =  new Skip();
-			take = new Take();
 		}
 
 		private Query(Query query, SelectList selectList)

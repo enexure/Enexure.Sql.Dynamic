@@ -282,20 +282,16 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(Skip skip)
 			{
-				if (skip.Rows > 0) {
-					builder.AppendLine().Append("offset ");
-					ExpandExpression(new Constant(skip.Rows));
-					builder.Append(" rows");
-				}
+				builder.AppendLine().Append("offset ");
+				ExpandExpression(new Constant(skip.Rows));
+				builder.Append(" rows");
 			}
 
 			private void Expand(Take take)
 			{
-				if (take.Rows > 0) {
-					builder.AppendLine().Append("fetch next ");
-					ExpandExpression(new Constant(take.Rows)); // Could be TabularDataSource
-					builder.Append(" rows only");
-				}
+				builder.AppendLine().Append("fetch next ");
+				ExpandExpression(new Constant(take.Rows)); // Could be TabularDataSource
+				builder.Append(" rows only");
 			}
 
 			public IDbCommand GetCommand()
