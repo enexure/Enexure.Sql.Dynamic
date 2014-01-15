@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public interface IBoolean
+	public class WhereClause
 	{
-
 	}
 }

@@ -49,6 +49,8 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Take), x => Expand((Take)x) },
 					{ typeof(OrderByClause), x => Expand((OrderByClause)x) },
 					{ typeof(OrderByItem), x => Expand((OrderByItem)x) },
+					{ typeof(Not), x => Expand((Not)x) },
+					{ typeof(IsNull), x => Expand((IsNull)x) },
 				};
 
 				Expand(query);
@@ -264,6 +266,25 @@ namespace Enexure.Sql.Dynamic.Providers
 				builder.Append("(");
 				ExpandExpression(function.Expression);
 				builder.Append(")");
+			}
+
+			private void Expand(Not not)
+			{
+				var isNull = not.Expression as IsNull;
+				if (isNull == null) {
+					builder.Append("not (");
+					ExpandExpression(not.Expression);
+					builder.Append(")");
+				} else {
+					ExpandExpression(isNull.Expression);
+					builder.Append(" is not null");
+				}
+			}
+
+			private void Expand(IsNull isNull)
+			{
+				ExpandExpression(isNull.Expression);
+				builder.Append(" is null");
 			}
 
 			private void Expand(InValues inValues)

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Conjunction : ExpressionList<IBoolean>
+	public class Conjunction : ExpressionList<IBoolean>, IBoolean
 	{
 		private static readonly Conjunction conjunction = new Conjunction();
 
@@ -18,6 +19,11 @@ namespace Enexure.Sql.Dynamic.Queries
 
 		public Conjunction(IBoolean expression)
 			: base(expression)
+		{
+		}
+
+		public Conjunction(IEnumerable<IBoolean> expressions)
+			: base(expressions)
 		{
 		}
 

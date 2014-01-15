@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Equality : Expression, IBoolean
+	public class Equality : IBoolean
 	{
 		private readonly IExpression expressionLeft;
 		private readonly IExpression expressionRight;

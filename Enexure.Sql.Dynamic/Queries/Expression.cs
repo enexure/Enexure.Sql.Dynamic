@@ -38,6 +38,26 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Concatenation(expressions);
 		}
 
+		public static Conjunction And(params IBoolean[] expressions)
+		{
+			return new Conjunction(expressions);
+		}
+
+		public static Disjunction Or(params IBoolean[] expressions)
+		{
+			return new Disjunction(expressions);
+		}
+
+		public static IBoolean Not(IBoolean expression)
+		{
+			return new Not(expression);
+		}
+
+		public static IBoolean IsNull(IExpression expression)
+		{
+			return new IsNull(expression);
+		}
+
 		public static Conjunction Conjunction()
 		{
 			return Queries.Conjunction.Empty;

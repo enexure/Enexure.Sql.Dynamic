@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public abstract class In : IBoolean
+	public class IsNull : IBoolean
 	{
 		private readonly IExpression expression;
 
-		protected In(IExpression expression)
+		public IsNull(IExpression expression)
 		{
 			this.expression = expression;
 		}
@@ -19,6 +18,5 @@ namespace Enexure.Sql.Dynamic.Queries
 		{
 			get { return expression; }
 		}
-
 	}
 }

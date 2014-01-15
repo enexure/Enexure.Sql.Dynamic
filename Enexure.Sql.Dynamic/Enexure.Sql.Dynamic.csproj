@@ -51,13 +51,16 @@
   <ItemGroup>
     <Compile Include="Queries\AddedToSelectListAfterSelectingStar.cs" />
     <Compile Include="Queries\Aggregate.cs" />
+    <Compile Include="Queries\Clause.cs" />
     <Compile Include="Queries\Concatenation.cs" />
     <Compile Include="Queries\Disjunction.cs" />
     <Compile Include="Queries\Function.cs" />
     <Compile Include="Queries\IExpression.cs" />
     <Compile Include="Queries\In.cs" />
     <Compile Include="Queries\InValues.cs" />
+    <Compile Include="Queries\IsNull.cs" />
     <Compile Include="Queries\MustHaveAtLeastOneException.cs" />
+    <Compile Include="Queries\Not.cs" />
     <Compile Include="Queries\Order.cs" />
     <Compile Include="Queries\OrderByClause.cs" />
     <Compile Include="Queries\OrderByItem.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="Queries\Table.cs" />
     <Compile Include="Queries\TableSource.cs" />
     <Compile Include="Queries\Take.cs" />
+    <Compile Include="Queries\WhereClause.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Enexure.Sql.Dynamic.nuspec" />

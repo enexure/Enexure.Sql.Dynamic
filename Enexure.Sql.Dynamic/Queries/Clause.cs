@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public interface IBoolean
+	public abstract class Clause<T>
 	{
+		public abstract string ClauseName { get; }
 
+		public ExpressionList<T> ExpressionList { get; set; }
 	}
 }

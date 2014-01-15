@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Disjunction : ExpressionList<IBoolean>
+	public class Disjunction : ExpressionList<IBoolean>, IBoolean
 	{
 		private static readonly Disjunction disjunction = new Disjunction();
 
@@ -21,10 +22,17 @@ namespace Enexure.Sql.Dynamic.Queries
 		{
 		}
 
+		public Disjunction(IEnumerable<IBoolean> expressions)
+			: base(expressions)
+		{
+		}
+
 		private Disjunction(Disjunction disjunction, IBoolean expression)
 			: base(disjunction, expression)
 		{
 		}
+
+
 
 		public Disjunction Add(IBoolean booleanExpression)
 		{

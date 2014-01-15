@@ -10,12 +10,25 @@ namespace Enexure.Sql.Dynamic.Queries
 {
 	public sealed class Query //: IExpression Add Method to SubQuery
 	{
+		//Select Clause
 		private readonly SelectList selectList;
+
+		// From Clause
 		private readonly TabularDataSource fromClause;
 		private readonly JoinList joins;
+		
+		// Where Clause
 		private readonly Conjunction whereClause;
+		
+		//GroupBy Clause
 		private readonly GroupByClause groupByClause;
+		
+		// Having Clause
+
+		// OrderBy Clause
 		private readonly OrderByClause orderByClause;
+		
+		// Extra
 		private readonly Skip skip;
 		private readonly Take take;
 

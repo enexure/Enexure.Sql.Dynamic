@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public abstract class In : IBoolean
+	public class Not : IBoolean
 	{
-		private readonly IExpression expression;
+		private readonly IBoolean expression;
 
-		protected In(IExpression expression)
+		public Not(IBoolean expression)
 		{
 			this.expression = expression;
 		}
 
-		public IExpression Expression
+		public IBoolean Expression
 		{
 			get { return expression; }
 		}
-
 	}
 }

@@ -31,6 +31,11 @@ namespace Enexure.Sql.Dynamic.Queries
 			this.expressions = list.expressions.Add(expression);
 		}
 
+		protected ExpressionList(IEnumerable<T> list)
+		{
+			this.expressions = ImmutableList<T>.Empty.AddRange(list);
+		}
+
 		public IEnumerable<T> Expressions
 		{
 			get { return expressions; }
