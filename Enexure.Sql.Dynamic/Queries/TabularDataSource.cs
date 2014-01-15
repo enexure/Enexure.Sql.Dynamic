@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public abstract class TabularDataSource : Expression
+	public abstract class TabularDataSource
 	{
 		private readonly string alias;
 

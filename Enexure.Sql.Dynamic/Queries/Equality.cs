@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Equality : Boolean
+	public class Equality : Expression, IBoolean
 	{
-		private readonly Expression expressionLeft;
-		private readonly Expression expressionRight;
+		private readonly IExpression expressionLeft;
+		private readonly IExpression expressionRight;
 
-		public Equality(Expression expressionLeft, Expression expressionRight)
+		public Equality(IExpression expressionLeft, IExpression expressionRight)
 		{
 			this.expressionLeft = expressionLeft;
 			this.expressionRight = expressionRight;
 		}
 
-		public Expression ExpressionLeft
+		public IExpression ExpressionLeft
 		{
 			get { return expressionLeft; }
 		}
 
-		public Expression ExpressionRight
+		public IExpression ExpressionRight
 		{
 			get { return expressionRight; }
 		}

@@ -7,7 +7,7 @@ namespace Enexure.Sql.Dynamic.Queries
 {
 	public class Count : Aggregate
 	{
-		public Count(Expression expression)
+		public Count(IExpression expression)
 			: base("count", expression)
 		{
 		}

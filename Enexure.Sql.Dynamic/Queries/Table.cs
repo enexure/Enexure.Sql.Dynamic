@@ -2,7 +2,7 @@
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public sealed class Table : Expression
+	public sealed class Table
 	{
 		private readonly string name;
 

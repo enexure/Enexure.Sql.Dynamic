@@ -6,27 +6,27 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Select : Expression
+	public class Select
 	{
-		private readonly Expression expression;
+		private readonly IExpression expression;
 		private readonly string alias;
 
 		protected Select()
 		{
 		}
 
-		public Select(Expression expression)
+		public Select(IExpression expression)
 		{
 			this.expression = expression;
 		}
 
-		public Select(Expression expression, string alias)
+		public Select(IExpression expression, string alias)
 		{
 			this.expression = expression;
 			this.alias = alias;
 		}
 
-		public Expression Expression
+		public IExpression Expression
 		{
 			get { return expression; }
 		}
@@ -36,14 +36,5 @@ namespace Enexure.Sql.Dynamic.Queries
 			get { return alias; }
 		}
 
-		public Count Count()
-		{
-			return new Count(this);
-		}
-
-		public Sum Sum()
-		{
-			return new Sum(this);
-		}
 	}
 }

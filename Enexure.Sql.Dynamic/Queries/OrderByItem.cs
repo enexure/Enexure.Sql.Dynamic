@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class OrderByItem : Expression
+	public class OrderByItem
 	{
 		private readonly Order? order;
 		private readonly Select select;

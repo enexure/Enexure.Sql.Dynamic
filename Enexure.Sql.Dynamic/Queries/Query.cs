@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public sealed class Query : Expression
+	public sealed class Query //: IExpression Add Method to SubQuery
 	{
 		private readonly SelectList selectList;
 		private readonly TabularDataSource fromClause;
@@ -130,6 +130,17 @@ namespace Enexure.Sql.Dynamic.Queries
 			get { return take; }
 		}
 
+		public IEnumerable<TabularDataSource> Tables
+		{
+			get
+			{
+				yield return fromClause;
+				foreach (var table in Joins.Select(x => x.Source)) {
+					yield return table;
+				}
+			}
+		}
+
 		public static Query From(Table table)
 		{
 			return new Query(new TableSource(table));
@@ -140,17 +151,17 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Query(tabularDataSource);
 		}
 
-		public Query Join(TableSource source, Boolean expression)
+		public Query Join(TableSource source, IBoolean expression)
 		{
 			return new Query(this, new Join(source, expression));
 		}
 
-		public Query Join(JoinType joinType, TableSource source, Boolean expression)
+		public Query Join(JoinType joinType, TableSource source, IBoolean expression)
 		{
 			return new Query(this, new Join(joinType, source, expression));
 		}
 
-		public Query Where(Boolean expression)
+		public Query Where(IBoolean expression)
 		{
 			return new Query(this, (WhereClause == null) ? new Conjunction(expression) : whereClause.Add(expression));
 		}

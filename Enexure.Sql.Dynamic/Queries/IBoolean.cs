@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public abstract class Aggregate : Function
+	public interface IBoolean : IExpression
 	{
-		protected Aggregate(string function, IExpression expression)
-			: base(function, expression)
-		{
-		}
+
 	}
 }

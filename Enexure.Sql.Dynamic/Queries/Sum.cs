@@ -7,7 +7,7 @@ namespace Enexure.Sql.Dynamic.Queries
 {
 	public class Sum : Aggregate
 	{
-		public Sum(Expression expression)
+		public Sum(IExpression expression)
 			: base("sum", expression)
 		{
 		}

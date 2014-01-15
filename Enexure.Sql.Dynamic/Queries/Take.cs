@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Take : Expression
+	public class Take
 	{
 		private readonly int rows;
 

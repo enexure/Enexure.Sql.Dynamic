@@ -52,7 +52,9 @@
     <Compile Include="Queries\AddedToSelectListAfterSelectingStar.cs" />
     <Compile Include="Queries\Aggregate.cs" />
     <Compile Include="Queries\Concatenation.cs" />
+    <Compile Include="Queries\Disjunction.cs" />
     <Compile Include="Queries\Function.cs" />
+    <Compile Include="Queries\IExpression.cs" />
     <Compile Include="Queries\In.cs" />
     <Compile Include="Queries\InValues.cs" />
     <Compile Include="Queries\MustHaveAtLeastOneException.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="Queries\Constant.cs" />
     <Compile Include="Queries\TabularDataSource.cs" />
     <Compile Include="Queries\DerivedTable.cs" />
-    <Compile Include="Queries\Boolean.cs" />
+    <Compile Include="Queries\IBoolean.cs" />
     <Compile Include="Queries\Expression.cs" />
     <Compile Include="Queries\Field.cs" />
     <Compile Include="Queries\Join.cs" />

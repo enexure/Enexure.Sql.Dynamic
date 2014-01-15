@@ -7,14 +7,14 @@ namespace Enexure.Sql.Dynamic.Queries
 {
 	public class Concatenation : Expression
 	{
-		private readonly IEnumerable<Expression> expressions;
+		private readonly IEnumerable<IExpression> expressions;
 
-		public Concatenation(IEnumerable<Expression> expressions)
+		public Concatenation(IEnumerable<IExpression> expressions)
 		{
 			this.expressions = expressions;
 		}
 
-		public IEnumerable<Expression> Expressions
+		public IEnumerable<IExpression> Expressions
 		{
 			get { return expressions; }
 		}

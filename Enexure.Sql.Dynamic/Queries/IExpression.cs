@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public abstract class Boolean : Expression
+	public interface IExpression
 	{
+		Select As(string alias);
 
+		Select AsSelf();
+
+		Function WithFunc(string function);
 	}
 }

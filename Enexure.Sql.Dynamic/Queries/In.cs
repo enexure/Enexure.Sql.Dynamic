@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public abstract class In : Boolean
+	public abstract class In : Expression, IBoolean
 	{
-		private readonly Expression expression;
+		private readonly IExpression expression;
 
-		public In(Expression expression)
+		protected In(IExpression expression)
 		{
 			this.expression = expression;
 		}
 
-		public Expression Expression
+		public IExpression Expression
 		{
 			get { return expression; }
 		}

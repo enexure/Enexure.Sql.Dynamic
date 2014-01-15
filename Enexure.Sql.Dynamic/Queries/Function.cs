@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Function : Expression
+	public class Function : Expression, IExpression
 	{
 		private readonly string function;
-		private readonly Expression expression;
+		private readonly IExpression expression;
 
-		public Function(string function, Expression expression)
+		public Function(string function, IExpression expression)
 		{
 			this.function = function;
 			this.expression = expression;
@@ -20,7 +20,7 @@ namespace Enexure.Sql.Dynamic.Queries
 			get { return function; }
 		}
 
-		public Expression Expression
+		public IExpression Expression
 		{
 			get { return expression; }
 		}

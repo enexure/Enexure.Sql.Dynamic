@@ -13,7 +13,7 @@ namespace Enexure.Sql.Dynamic.Providers
 		private class Provider
 		{
 			private readonly StringBuilder builder;
-			private readonly Dictionary<Type, Action<Expression>> mappings;
+			private readonly Dictionary<Type, Action<object>> mappings;
 			private readonly Dictionary<Constant, int> constants;
 
 			private readonly List<SqlParameter> parameters;
@@ -26,7 +26,7 @@ namespace Enexure.Sql.Dynamic.Providers
 
 				builder = new StringBuilder();
 
-				mappings = new Dictionary<Type, Action<Expression>>() {
+				mappings = new Dictionary<Type, Action<object>>() {
 					{ typeof(Query), x => Expand((Query)x) },
 					{ typeof(Table), x => Expand((Table)x) },
 					{ typeof(TableSource), x => Expand((TableSource)x) },
@@ -54,20 +54,20 @@ namespace Enexure.Sql.Dynamic.Providers
 				Expand(query);
 			}
 
-			private void ExpandExpression(Expression expression)
+			private void ExpandExpression(object part)
 			{
-				if (expression == null) {
+				if (part == null) {
 					return;
 				}
 
-				var type = expression.GetType();
-				Action<Expression> expander;
+				var type = part.GetType();
+				Action<object> expander;
 				try {
 					expander = mappings[type];
 				} catch (Exception) {
 					throw new Exception(string.Format("Could not expand {0}", type.Name));
 				}
-				expander.Invoke(expression);
+				expander.Invoke(part);
 			}
 			
 

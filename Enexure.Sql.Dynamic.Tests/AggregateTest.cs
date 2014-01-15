@@ -20,7 +20,7 @@ namespace Enexure.Sql.Dynamic.Tests
 
 			var query = Query
 				.From(table)
-				.Select(table.Field("Name").AsSelf().Count());
+				.Select(table.Field("Name").Count().AsSelf());
 
 			var sql = TSqlProvider.GetSqlString(query);
 
@@ -38,7 +38,7 @@ namespace Enexure.Sql.Dynamic.Tests
 
 			var query = Query
 				.From(table)
-				.Select(table.Field("Name").AsSelf().Sum());
+				.Select(table.Field("Name").Sum().AsSelf());
 
 			var sql = TSqlProvider.GetSqlString(query);
 

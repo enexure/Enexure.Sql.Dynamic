@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Skip : Expression
+	public class Skip
 	{
 		private readonly int rows;
 

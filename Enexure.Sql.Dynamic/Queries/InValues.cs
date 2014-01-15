@@ -10,7 +10,7 @@ namespace Enexure.Sql.Dynamic.Queries
 	{
 		private readonly IEnumerable<object> values;
 
-		public InValues(Expression expression, IEnumerable<object> values)
+		public InValues(IExpression expression, IEnumerable<object> values)
 			: base(expression)
 		{
 			if (!values.Any()) {

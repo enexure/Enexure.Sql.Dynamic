@@ -7,22 +7,21 @@ using System.Text;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public abstract class ExpressionList<T> : Expression, IEnumerable<T>
-		where T : Expression
+	public abstract class ExpressionList<T> : IEnumerable<T>
 	{
 		protected readonly ImmutableList<T> expressions;
 
-		public ExpressionList()
+		protected ExpressionList()
 		{
 			expressions = ImmutableList<T>.Empty;
 		}
 
-		public ExpressionList(ImmutableList<T> expressions)
+		protected ExpressionList(ImmutableList<T> expressions)
 		{
 			this.expressions = expressions;
 		}
 
-		public ExpressionList(T expression)
+		protected ExpressionList(T expression)
 		{
 			this.expressions = ImmutableList<T>.Empty.Add(expression);
 		}
