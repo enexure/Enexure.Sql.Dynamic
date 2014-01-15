@@ -9,6 +9,12 @@ namespace Enexure.Sql.Dynamic.Queries
 {
 	public class JoinList : ExpressionList<Join>
 	{
+		private static readonly JoinList empty = new JoinList();
+		public static JoinList Empty
+		{
+			get { return empty; }
+		}
+
 		public JoinList()
 			: base()
 		{

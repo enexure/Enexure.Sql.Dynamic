@@ -14,8 +14,7 @@ namespace Enexure.Sql.Dynamic.Queries
 		private readonly SelectClause selectClause;
 
 		// From Clause
-		private readonly TabularDataSource fromClause;
-		private readonly JoinList joins;
+		private readonly FromClause fromClause;
 		
 		// Where Clause
 		private readonly WhereClause whereClause;
@@ -32,13 +31,11 @@ namespace Enexure.Sql.Dynamic.Queries
 		private readonly Skip skip;
 		private readonly Take take;
 
-		public Query(TabularDataSource fromClause)
+		public Query(TabularDataSource dataSource)
 		{
-			this.fromClause = fromClause;
-
+			fromClause = new FromClause(dataSource);
 			selectClause = new SelectClause();
 			whereClause = new WhereClause();
-			joins = new JoinList();
 			groupByClause = new GroupByClause();
 			orderByClause = new OrderByClause();
 		}
@@ -55,16 +52,10 @@ namespace Enexure.Sql.Dynamic.Queries
 			this.whereClause = whereClause;
 		}
 
-		private Query(Query query, Join join)
+		private Query(Query query, FromClause fromClause)
 			: this(query)
 		{
-			this.joins = query.joins.Add(join);
-		}
-
-		private Query(Query query, JoinList joins)
-			: this(query)
-		{
-			this.joins = joins;
+			this.fromClause = fromClause;
 		}
 
 		private Query(Query query, GroupByClause groupByClause)
@@ -95,7 +86,6 @@ namespace Enexure.Sql.Dynamic.Queries
 		{
 			fromClause = query.fromClause;
 			whereClause = query.whereClause;
-			joins = query.joins;
 			selectClause = query.selectClause;
 			groupByClause = query.groupByClause;
 			orderByClause = query.orderByClause;
@@ -103,24 +93,19 @@ namespace Enexure.Sql.Dynamic.Queries
 			take = query.take;
 		}
 
+		public FromClause FromClause
+		{
+			get { return fromClause; }
+		}
+		
 		public SelectClause SelectClause
 		{
 			get { return selectClause; }
 		}
 
-		public TabularDataSource FromClause
-		{
-			get { return fromClause; }
-		}
-
 		public WhereClause WhereClause
 		{
 			get { return whereClause; }
-		}
-
-		public JoinList Joins
-		{
-			get { return joins; }
 		}
 
 		public GroupByClause GroupByClause
@@ -143,17 +128,6 @@ namespace Enexure.Sql.Dynamic.Queries
 			get { return take; }
 		}
 
-		public IEnumerable<TabularDataSource> Tables
-		{
-			get
-			{
-				yield return fromClause;
-				foreach (var table in Joins.Select(x => x.Source)) {
-					yield return table;
-				}
-			}
-		}
-
 		public static Query From(Table table)
 		{
 			return new Query(new TableSource(table));
@@ -166,12 +140,12 @@ namespace Enexure.Sql.Dynamic.Queries
 
 		public Query Join(TableSource source, IBoolean expression)
 		{
-			return new Query(this, new Join(source, expression));
+			return new Query(this, new FromClause(fromClause, fromClause.List.Add(new Join(source, expression))));
 		}
 
 		public Query Join(JoinType joinType, TableSource source, IBoolean expression)
 		{
-			return new Query(this, new Join(joinType, source, expression));
+			return new Query(this, new FromClause(fromClause, fromClause.List.Add(new Join(joinType, source, expression))));
 		}
 
 		public Query Where(IBoolean expression)

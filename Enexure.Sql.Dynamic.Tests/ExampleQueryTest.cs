@@ -1,6 +1,7 @@
 ﻿using System;
 using Enexure.Sql.Dynamic.Providers;
 using Enexure.Sql.Dynamic.Queries;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Enexure.Sql.Dynamic.Tests
@@ -28,7 +29,8 @@ namespace Enexure.Sql.Dynamic.Tests
 				"join [TableB] [b] on [a].[Id] = [b].[Fk]" + Environment.NewLine +
 				"where [a].[Id] = @p0";
 
-			Assert.AreEqual(expected, sql);
+			sql.Should().Be(expected);
+
 		}
 	}
 }
