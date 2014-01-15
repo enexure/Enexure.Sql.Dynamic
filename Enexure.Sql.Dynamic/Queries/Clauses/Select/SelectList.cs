@@ -10,6 +10,11 @@ namespace Enexure.Sql.Dynamic.Queries
 {
 	public class SelectList : ExpressionList<Select>
 	{
+		private static readonly SelectList empty = new SelectList();
+		public static SelectList Empty {
+			get { return empty; }
+		}
+
 		public SelectList()
 			: base()
 		{

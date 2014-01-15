@@ -11,14 +11,14 @@ namespace Enexure.Sql.Dynamic.Queries
 	public sealed class Query //: IExpression Add Method to SubQuery
 	{
 		//Select Clause
-		private readonly SelectList selectList;
+		private readonly SelectClause selectClause;
 
 		// From Clause
 		private readonly TabularDataSource fromClause;
 		private readonly JoinList joins;
 		
 		// Where Clause
-		private readonly Conjunction whereClause;
+		private readonly WhereClause whereClause;
 		
 		//GroupBy Clause
 		private readonly GroupByClause groupByClause;
@@ -36,20 +36,20 @@ namespace Enexure.Sql.Dynamic.Queries
 		{
 			this.fromClause = fromClause;
 
-			selectList = new SelectList();
-			whereClause = new Conjunction();
+			selectClause = new SelectClause();
+			whereClause = new WhereClause();
 			joins = new JoinList();
 			groupByClause = new GroupByClause();
 			orderByClause = new OrderByClause();
 		}
 
-		private Query(Query query, SelectList selectList)
+		private Query(Query query, SelectClause selectClause)
 			: this(query)
 		{
-			this.selectList = selectList;
+			this.selectClause = selectClause;
 		}
 
-		private Query(Query query, Conjunction whereClause)
+		private Query(Query query, WhereClause whereClause)
 			: this(query)
 		{
 			this.whereClause = whereClause;
@@ -96,16 +96,16 @@ namespace Enexure.Sql.Dynamic.Queries
 			fromClause = query.fromClause;
 			whereClause = query.whereClause;
 			joins = query.joins;
-			selectList = query.selectList;
+			selectClause = query.selectClause;
 			groupByClause = query.groupByClause;
 			orderByClause = query.orderByClause;
 			skip = query.skip;
 			take = query.take;
 		}
 
-		public SelectList SelectList
+		public SelectClause SelectClause
 		{
-			get { return selectList; }
+			get { return selectClause; }
 		}
 
 		public TabularDataSource FromClause
@@ -113,7 +113,7 @@ namespace Enexure.Sql.Dynamic.Queries
 			get { return fromClause; }
 		}
 
-		public Conjunction WhereClause
+		public WhereClause WhereClause
 		{
 			get { return whereClause; }
 		}
@@ -176,32 +176,32 @@ namespace Enexure.Sql.Dynamic.Queries
 
 		public Query Where(IBoolean expression)
 		{
-			return new Query(this, (WhereClause == null) ? new Conjunction(expression) : whereClause.Add(expression));
+			return new Query(this, new WhereClause(WhereClause.List.Add(expression)));
 		}
 
 		public Query Select(IEnumerable<Expression> expressions)
 		{
-			return new Query(this, selectList.Add(expressions));
+			return new Query(this, new SelectClause(selectClause.List.Add(expressions)));
 		}
 
 		public Query Select(params Expression[] expressions)
 		{
-			return new Query(this, selectList.Add(expressions));
+			return new Query(this, new SelectClause(selectClause.List.Add(expressions)));
 		}
 
 		public Query Select(Select selectExpression)
 		{
-			return new Query(this, selectList.Add(selectExpression));
+			return new Query(this, new SelectClause(selectClause.List.Add(selectExpression)));
 		}
 
 		public Query Select(Field field)
 		{
-			return new Query(this, selectList.Add(field));
+			return new Query(this, new SelectClause(selectClause.List.Add(field)));
 		}
 
 		public Query SelectAll()
 		{
-			return new Query(this, selectList.Add(new Star()));
+			return new Query(this, new SelectClause(selectClause.List.Add(new Star())));
 		}
 
 		public Query GroupBy(Field field)

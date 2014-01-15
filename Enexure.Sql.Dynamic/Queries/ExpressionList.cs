@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public abstract class ExpressionList<T> : IEnumerable<T>
+	public abstract class ExpressionList<T> : ExpressionList, IEnumerable<T>
 	{
 		protected readonly ImmutableList<T> expressions;
 
@@ -41,7 +41,7 @@ namespace Enexure.Sql.Dynamic.Queries
 			get { return expressions; }
 		}
 
-		public bool IsEmpty {
+		public override bool IsEmpty {
 			get { return expressions.IsEmpty; }
 		}
 
@@ -54,5 +54,10 @@ namespace Enexure.Sql.Dynamic.Queries
 		{
 			return GetEnumerator();
 		}
+	}
+
+	public abstract class ExpressionList
+	{
+		public abstract bool IsEmpty { get; }
 	}
 }

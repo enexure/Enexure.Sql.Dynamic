@@ -27,6 +27,10 @@ namespace Enexure.Sql.Dynamic.Providers
 				builder = new StringBuilder();
 
 				mappings = new Dictionary<Type, Action<object>>() {
+					// Clauses
+					{ typeof(SelectClause), x => Expand((Clause)x) },
+					{ typeof(WhereClause), x => Expand((Clause)x) },
+
 					{ typeof(Query), x => Expand((Query)x) },
 					{ typeof(Table), x => Expand((Table)x) },
 					{ typeof(TableSource), x => Expand((TableSource)x) },
@@ -73,30 +77,39 @@ namespace Enexure.Sql.Dynamic.Providers
 			}
 			
 
+			
+
 			private void Expand(Query query)
 			{
-				builder.Append("select ");
-				ExpandExpression(query.SelectList);
-				builder.AppendLine();
+				ExpandExpression(query.SelectClause);
+				
+				//ExpandExpression(query.FromClause);
 
-				builder.Append("from ");
+				builder.AppendLine().Append("from ");
 				ExpandExpression(query.FromClause);
-
+				
 				if (!query.Joins.IsEmpty) {
 					builder.AppendLine();
 					ExpandExpression(query.Joins);
 				}
 
-				if (!query.WhereClause.IsEmpty) {
-					builder.AppendLine();
-					builder.Append("where ");
-					ExpandExpression(query.WhereClause);
-				}
-
+				ExpandExpression(query.WhereClause);
 				ExpandExpression(query.GroupByClause);
 				ExpandExpression(query.OrderByClause);
 				ExpandExpression(query.SkipClause);
 				ExpandExpression(query.TakeClause);
+			}
+
+			private void Expand(Clause clause)
+			{
+				if (!clause.ClauseList.IsEmpty) {
+					if (clause.ClauseName != "select") {
+						builder.AppendLine();
+					}
+					builder.Append(clause.ClauseName).Append(" ");
+
+					ExpandExpression(clause.ClauseList);
+				}
 			}
 
 			// ReSharper disable once ParameterTypeCanBeEnumerable.Local
