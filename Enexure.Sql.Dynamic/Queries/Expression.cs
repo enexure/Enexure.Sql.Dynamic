@@ -13,14 +13,64 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Constant(value);
 		}
 
-		public static Equality Eq(IExpression expressionLeft, object value)
+		public static Equal Eq(IExpression expressionLeft, object value)
 		{
-			return new Equality(expressionLeft, new Constant(value));
+			return new Equal(expressionLeft, new Constant(value));
 		}
 
-		public static Equality Eq(IExpression expressionLeft, IExpression expressionRight)
+		public static Equal Eq(IExpression expressionLeft, IExpression expressionRight)
 		{
-			return new Equality(expressionLeft, expressionRight);
+			return new Equal(expressionLeft, expressionRight);
+		}
+
+		public static NotEqual Ne(IExpression expressionLeft, object value)
+		{
+			return new NotEqual(expressionLeft, new Constant(value));
+		}
+
+		public static NotEqual Ne(IExpression expressionLeft, IExpression expressionRight)
+		{
+			return new NotEqual(expressionLeft, expressionRight);
+		}
+
+		public static LessThan Lt(IExpression expressionLeft, object value)
+		{
+			return new LessThan(expressionLeft, new Constant(value));
+		}
+
+		public static LessThan Lt(IExpression expressionLeft, IExpression expressionRight)
+		{
+			return new LessThan(expressionLeft, expressionRight);
+		}
+
+		public static LessThanOrEqual Le(IExpression expressionLeft, object value)
+		{
+			return new LessThanOrEqual(expressionLeft, new Constant(value));
+		}
+
+		public static LessThanOrEqual Le(IExpression expressionLeft, IExpression expressionRight)
+		{
+			return new LessThanOrEqual(expressionLeft, expressionRight);
+		}
+
+		public static GreaterThan Gt(IExpression expressionLeft, object value)
+		{
+			return new GreaterThan(expressionLeft, new Constant(value));
+		}
+
+		public static GreaterThan Gt(IExpression expressionLeft, IExpression expressionRight)
+		{
+			return new GreaterThan(expressionLeft, expressionRight);
+		}
+
+		public static GreaterThanOrEqual Ge(IExpression expressionLeft, object value)
+		{
+			return new GreaterThanOrEqual(expressionLeft, new Constant(value));
+		}
+
+		public static GreaterThanOrEqual Ge(IExpression expressionLeft, IExpression expressionRight)
+		{
+			return new GreaterThanOrEqual(expressionLeft, expressionRight);
 		}
 
 		public static InSubQuery In(IExpression expression, SubQuery subQuery)
@@ -61,6 +111,16 @@ namespace Enexure.Sql.Dynamic.Queries
 		public static IBoolean IsNull(IExpression expression)
 		{
 			return new IsNull(expression);
+		}
+
+		public static IBoolean Between(IExpression testxpression, IExpression leftExpression, IExpression rightExpression)
+		{
+			return new Between(testxpression, leftExpression, rightExpression);
+		}
+
+		public static IBoolean Between(IExpression testxpression, object leftValue, object rightValue)
+		{
+			return new Between(testxpression, new Constant(leftValue), new Constant(rightValue));
 		}
 
 		public static Conjunction Conjunction()

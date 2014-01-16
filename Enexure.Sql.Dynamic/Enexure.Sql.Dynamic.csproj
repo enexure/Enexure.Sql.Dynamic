@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Queries\Booleans\NotEqual.cs" />
+    <Compile Include="Queries\Booleans\GreaterThanOrEqual.cs" />
+    <Compile Include="Queries\Booleans\LessThanOrEqual.cs" />
+    <Compile Include="Queries\Booleans\Operator.cs" />
+    <Compile Include="Queries\Booleans\GreaterThan.cs" />
+    <Compile Include="Queries\Booleans\LessThan.cs" />
     <Compile Include="Queries\Booleans\InSubQuery.cs" />
     <Compile Include="Queries\Booleans\Between.cs" />
     <Compile Include="Queries\Clauses\From\FromClause.cs" />
@@ -73,7 +79,7 @@
     <Compile Include="Queries\Clauses\GroupBy\GroupByClause.cs" />
     <Compile Include="Queries\Clauses\From\JoinList.cs" />
     <Compile Include="Queries\ExpressionList.cs" />
-    <Compile Include="Queries\Expressions\Equality.cs" />
+    <Compile Include="Queries\Booleans\Equal.cs" />
     <Compile Include="Queries\Booleans\Conjunction.cs" />
     <Compile Include="Queries\Expressions\Constant.cs" />
     <Compile Include="Queries\Clauses\From\TabularDataSource.cs" />

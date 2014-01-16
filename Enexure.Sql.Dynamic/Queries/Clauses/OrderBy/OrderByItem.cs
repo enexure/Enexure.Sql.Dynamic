@@ -9,30 +9,30 @@ namespace Enexure.Sql.Dynamic.Queries
 	public class OrderByItem
 	{
 		private readonly Order? order;
-		private readonly Select select;
+		private readonly IExpression expression;
 
 		public OrderByItem(Field field)
 		{
 			this.order = null;
-			this.select = field.AsSelf();
+			this.expression = field;
 		}
 
-		public OrderByItem(Select select)
+		public OrderByItem(IExpression expression)
 		{
 			this.order = null;
-			this.select = select;
+			this.expression = expression;
 		}
 
 		public OrderByItem(Field field, Order order)
 		{
 			this.order = order;
-			this.select = field.AsSelf();
+			this.expression = field;
 		}
 
-		public OrderByItem(Select select, Order order)
+		public OrderByItem(IExpression expression, Order order)
 		{
 			this.order = order;
-			this.select = select;
+			this.expression = expression;
 		}
 
 		public bool ExplicitOrder
@@ -45,9 +45,9 @@ namespace Enexure.Sql.Dynamic.Queries
 			get { return order != null ? order.Value : Order.Ascending; }
 		}
 
-		public Select Select
+		public IExpression Expression
 		{
-			get { return select; }
+			get { return expression; }
 		}
 	}
 }

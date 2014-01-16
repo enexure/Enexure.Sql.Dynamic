@@ -54,7 +54,13 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Count), x => Expand((Function)x) },
 					{ typeof(Sum), x => Expand((Function)x) },
 
-					{ typeof(Equality), x => Expand((Equality)x) },
+					{ typeof(Equal), x => Expand((Operator)x) },
+					{ typeof(NotEqual), x => Expand((Operator)x) },
+					{ typeof(LessThan), x => Expand((Operator)x) },
+					{ typeof(LessThanOrEqual), x => Expand((Operator)x) },
+					{ typeof(GreaterThan), x => Expand((Operator)x) },
+					{ typeof(GreaterThanOrEqual), x => Expand((Operator)x) },
+
 					{ typeof(Conjunction), x => Expand((Conjunction)x) },
 					{ typeof(Disjunction), x => Expand((Disjunction)x) },
 					{ typeof(InValues), x => Expand((InValues)x) },
@@ -182,11 +188,11 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 			}
 
-			private void Expand(Equality equalityExpression)
+			private void Expand(Operator op)
 			{
-				ExpandExpression(equalityExpression.ExpressionLeft);
-				builder.Append(" = ");
-				ExpandExpression(equalityExpression.ExpressionRight);
+				ExpandExpression(op.LeftExpression);
+				builder.Append(' ').Append(op.OperatorSymbol).Append(' ');
+				ExpandExpression(op.RightExpression);
 			}
 
 			private void Expand(Between between)
@@ -294,7 +300,7 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(OrderByItem orderByItem)
 			{
-				ExpandExpression(orderByItem.Select);
+				ExpandExpression(orderByItem.Expression);
 				if (orderByItem.ExplicitOrder) {
 					builder.Append(" ").Append(orderByItem.Order == Order.Ascending ? "asc" : "desc");
 				}

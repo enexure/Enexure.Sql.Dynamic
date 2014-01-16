@@ -193,9 +193,9 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Query(this, orderByClause.Add(new OrderByItem(field)));
 		}
 
-		public Query OrderBy(Select selectExpression)
+		public Query OrderBy(IExpression expression)
 		{
-			return new Query(this, orderByClause.Add(new OrderByItem(selectExpression)));
+			return new Query(this, orderByClause.Add(new OrderByItem(expression)));
 		}
 
 		public Query OrderBy(Field field, Order order)
@@ -203,9 +203,9 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Query(this, orderByClause.Add(new OrderByItem(field, order)));
 		}
 
-		public Query OrderBy(Select selectExpression, Order order)
+		public Query OrderBy(IExpression expression, Order order)
 		{
-			return new Query(this, orderByClause.Add(new OrderByItem(selectExpression, order)));
+			return new Query(this, orderByClause.Add(new OrderByItem(expression, order)));
 		}
 
 		public DerivedTable As(string alias)

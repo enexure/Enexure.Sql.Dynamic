@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Between : IBoolean
+	public abstract class Operator : IBoolean
 	{
-		private readonly IExpression testExpression;
 		private readonly IExpression leftExpression;
 		private readonly IExpression rightExpression;
 
-		public Between(IExpression testExpression, IExpression leftExpression, IExpression rightExpression)
+		protected Operator(IExpression leftExpression, IExpression rightExpression)
 		{
-			this.testExpression = testExpression;
 			this.leftExpression = leftExpression;
 			this.rightExpression = rightExpression;
 		}
+
+		public abstract string OperatorSymbol { get; }
 
 		public IExpression LeftExpression
 		{
@@ -26,11 +27,6 @@ namespace Enexure.Sql.Dynamic.Queries
 		public IExpression RightExpression
 		{
 			get { return rightExpression; }
-		}
-
-		public IExpression TestExpression
-		{
-			get { return testExpression; }
 		}
 	}
 }
