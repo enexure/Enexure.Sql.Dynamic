@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Queries\Booleans\InSubQuery.cs" />
+    <Compile Include="Queries\Booleans\Between.cs" />
     <Compile Include="Queries\Clauses\From\FromClause.cs" />
     <Compile Include="Queries\Exceptions\AddedToSelectListAfterSelectingStar.cs" />
     <Compile Include="Queries\Expressions\Aggregate.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Queries\Clauses\Select\Select.cs" />
     <Compile Include="Queries\Clauses\Select\SelectList.cs" />
     <Compile Include="Queries\Clauses\Select\Star.cs" />
+    <Compile Include="Queries\Expressions\SubQuery.cs" />
     <Compile Include="Queries\Table.cs" />
     <Compile Include="Queries\Clauses\From\TableSource.cs" />
     <Compile Include="Queries\Clauses\Take\Take.cs" />

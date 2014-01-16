@@ -33,30 +33,34 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(FromClause), x => Expand((FromClause)x) },
 					{ typeof(GroupByClause), x => Expand((GroupByClause)x) },
 					{ typeof(OrderByClause), x => Expand((OrderByClause)x) },
+					{ typeof(Skip), x => Expand((Skip)x) },
+					{ typeof(Take), x => Expand((Take)x) },
 
 					{ typeof(Query), x => Expand((Query)x) },
-					{ typeof(OrderByItem), x => Expand((OrderByItem)x) },
 					{ typeof(Table), x => Expand((Table)x) },
+					{ typeof(OrderByItem), x => Expand((OrderByItem)x) },
+					
+					{ typeof(SubQuery), x => Expand((SubQuery)x) },
 					{ typeof(TableSource), x => Expand((TableSource)x) },
 					{ typeof(DerivedTable), x => Expand((DerivedTable)x) },
 					{ typeof(SelectList), x => Expand((SelectList)x) },
 					{ typeof(Select), x => Expand((Select)x) },
-					{ typeof(Star), x => Expand((Star)x) },
 					{ typeof(Field), x => Expand((Field)x) },
-					{ typeof(Equality), x => Expand((Equality)x) },
 					{ typeof(Constant), x => Expand((Constant)x) },
-					{ typeof(Conjunction), x => Expand((Conjunction)x) },
-					{ typeof(Disjunction), x => Expand((Disjunction)x) },
 					{ typeof(JoinList), x => Expand((JoinList)x) },
+					{ typeof(Star), x => Expand((Star)x) },
+					{ typeof(Concatenation), x => Expand((Concatenation)x) },
+					{ typeof(Function), x => Expand((Function)x) },
 					{ typeof(Count), x => Expand((Function)x) },
 					{ typeof(Sum), x => Expand((Function)x) },
-					{ typeof(Function), x => Expand((Function)x) },
+
+					{ typeof(Equality), x => Expand((Equality)x) },
+					{ typeof(Conjunction), x => Expand((Conjunction)x) },
+					{ typeof(Disjunction), x => Expand((Disjunction)x) },
 					{ typeof(InValues), x => Expand((InValues)x) },
-					{ typeof(Concatenation), x => Expand((Concatenation)x) },
-					{ typeof(Skip), x => Expand((Skip)x) },
-					{ typeof(Take), x => Expand((Take)x) },
 					{ typeof(Not), x => Expand((Not)x) },
 					{ typeof(IsNull), x => Expand((IsNull)x) },
+					{ typeof(Between), x => Expand((Between)x) },
 				};
 
 				Expand(query);
@@ -87,6 +91,12 @@ namespace Enexure.Sql.Dynamic.Providers
 				ExpandExpression(query.OrderByClause);
 				ExpandExpression(query.SkipClause);
 				ExpandExpression(query.TakeClause);
+			}
+			private void Expand(SubQuery subQuery)
+			{
+				builder.Append("(");
+				ExpandExpression(subQuery.Query);
+				builder.Append(")");
 			}
 
 			private void Expand(Clause clause)
@@ -177,6 +187,14 @@ namespace Enexure.Sql.Dynamic.Providers
 				ExpandExpression(equalityExpression.ExpressionLeft);
 				builder.Append(" = ");
 				ExpandExpression(equalityExpression.ExpressionRight);
+			}
+
+			private void Expand(Between between)
+			{
+				builder.Append("between ");
+				ExpandExpression(between.LeftExpression);
+				builder.Append(" and ");
+				ExpandExpression(between.RightExpression);
 			}
 
 			private void Expand(Star star)

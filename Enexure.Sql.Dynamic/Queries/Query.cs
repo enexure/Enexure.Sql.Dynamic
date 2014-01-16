@@ -138,12 +138,12 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Query(tabularDataSource);
 		}
 
-		public Query Join(TableSource source, IBoolean expression)
+		public Query Join(TabularDataSource source, IBoolean expression)
 		{
 			return new Query(this, new FromClause(fromClause, fromClause.List.Add(new Join(source, expression))));
 		}
 
-		public Query Join(JoinType joinType, TableSource source, IBoolean expression)
+		public Query Join(JoinType joinType, TabularDataSource source, IBoolean expression)
 		{
 			return new Query(this, new FromClause(fromClause, fromClause.List.Add(new Join(joinType, source, expression))));
 		}
@@ -221,6 +221,11 @@ namespace Enexure.Sql.Dynamic.Queries
 		public Query Take(int rows)
 		{
 			return new Query(this, new Take(rows));
+		}
+
+		public SubQuery AsSubQuery()
+		{
+			return new SubQuery(this);
 		}
 	}
 }

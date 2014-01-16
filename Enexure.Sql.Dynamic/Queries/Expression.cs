@@ -23,6 +23,11 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Equality(expressionLeft, expressionRight);
 		}
 
+		public static InSubQuery In(IExpression expression, SubQuery subQuery)
+		{
+			return new InSubQuery(expression, subQuery);
+		}
+
 		public static InValues In(IExpression expression, IEnumerable<object> values)
 		{
 			return new InValues(expression, values);

@@ -8,24 +8,24 @@ namespace Enexure.Sql.Dynamic.Queries
 	public class Join
 	{
 		private readonly JoinType joinType;
-		private readonly TableSource source;
+		private readonly TabularDataSource source;
 		private readonly IBoolean expression;
 
-		public Join(TableSource source, IBoolean expression)
+		public Join(TabularDataSource source, IBoolean expression)
 		{
 			this.joinType = JoinType.Inner;
 			this.source = source;
 			this.expression = expression;
 		}
 
-		public Join(JoinType joinType, TableSource source, IBoolean expression)
+		public Join(JoinType joinType, TabularDataSource source, IBoolean expression)
 		{
 			this.joinType = joinType;
 			this.source = source;
 			this.expression = expression;
 		}
 
-		public TableSource Source
+		public TabularDataSource Source
 		{
 			get { return source; }
 		}

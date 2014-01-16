@@ -48,5 +48,24 @@ namespace Enexure.Sql.Dynamic.Queries
 			get { return "from"; }
 		}
 
+		public TabularDataSource Get(string aliasOrName)
+		{
+			var match = Tables.Select(x => {
+				var table = x as TableSource;
+				return new {
+					TableName = (table != null ? table.Table.Name : null),
+					Alias = x.Alias,
+					Source = x
+				};
+			}).FirstOrDefault(x =>
+				   string.Equals(x.Alias, aliasOrName, StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(x.TableName, aliasOrName, StringComparison.OrdinalIgnoreCase));
+
+			if (match != null) {
+				return match.Source;
+			} else {
+				return null;
+			}
+		}
 	}
 }
