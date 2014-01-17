@@ -64,6 +64,7 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Conjunction), x => Expand((Conjunction)x) },
 					{ typeof(Disjunction), x => Expand((Disjunction)x) },
 					{ typeof(InValues), x => Expand((InValues)x) },
+					{ typeof(InSubQuery), x => Expand((InSubQuery)x) },
 					{ typeof(Not), x => Expand((Not)x) },
 					{ typeof(IsNull), x => Expand((IsNull)x) },
 					{ typeof(Between), x => Expand((Between)x) },
@@ -346,6 +347,13 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 
 				builder.Append(")");
+			}
+
+			private void Expand(InSubQuery inSubQuery)
+			{
+				ExpandExpression(inSubQuery.Expression);
+				builder.Append(" in ");
+				ExpandExpression(inSubQuery.SubQuery);
 			}
 
 			private void Expand(Skip skip)
