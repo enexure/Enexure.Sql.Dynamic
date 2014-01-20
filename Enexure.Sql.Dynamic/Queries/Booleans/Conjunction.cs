@@ -5,6 +5,7 @@ namespace Enexure.Sql.Dynamic.Queries
 {
 	public class Conjunction : ExpressionList<IBoolean>, IBoolean
 	{
+		private readonly bool rootConjunction;
 		private static readonly Conjunction conjunction = new Conjunction();
 
 		public static Conjunction Empty
@@ -12,9 +13,20 @@ namespace Enexure.Sql.Dynamic.Queries
 			get { return conjunction; }
 		}
 
+		public bool RootConjunction
+		{
+			get { return rootConjunction; }
+		}
+
 		public Conjunction()
 			: base()
 		{
+		}
+
+		public Conjunction(bool rootConjunction)
+			: base()
+		{
+			this.rootConjunction = rootConjunction;
 		}
 
 		public Conjunction(IBoolean expression)
@@ -30,6 +42,7 @@ namespace Enexure.Sql.Dynamic.Queries
 		private Conjunction(Conjunction conjunction, IBoolean expression)
 			: base(conjunction, expression)
 		{
+			this.rootConjunction = conjunction.RootConjunction;
 		}
 
 		public Conjunction Add(IBoolean booleanExpression)

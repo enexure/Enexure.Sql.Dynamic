@@ -255,19 +255,35 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(Conjunction conjunction)
 			{
-				var head = true;
-				foreach (var item in conjunction) {
-					if (head) { head = false; } else { builder.AppendLine().Append("and "); }
-					ExpandExpression(item);
+				var wrap = !conjunction.RootConjunction;
+
+				if (conjunction.Any()) {
+					if (wrap) {
+						builder.Append('(');
+					}
+					var head = true;
+					foreach (var item in conjunction) {
+						if (head) { head = false; } else { builder.AppendLine().Append("and "); }
+						ExpandExpression(item);
+					}
+					if (wrap) {
+						builder.Append(')');
+					}
 				}
 			}
 
 			private void Expand(Disjunction disjunction)
 			{
-				var head = true;
-				foreach (var item in disjunction) {
-					if (head) { head = false; } else { builder.AppendLine().Append("or "); }
-					ExpandExpression(item);
+				if (disjunction.Any()) {
+					builder.Append('(');
+
+					var head = true;
+					foreach (var item in disjunction) {
+						if (head) { head = false; } else { builder.AppendLine().Append("or "); }
+						ExpandExpression(item);
+					}
+
+					builder.Append(')');
 				}
 			}
 

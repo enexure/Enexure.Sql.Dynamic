@@ -9,7 +9,7 @@ namespace Enexure.Sql.Dynamic.Queries
 	public class WhereClause : Clause<Conjunction>
 	{
 		public WhereClause()
-			: base(Conjunction.Empty)
+			: base(new Conjunction(true))
 		{
 		}
 
