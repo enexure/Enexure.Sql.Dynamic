@@ -5,19 +5,19 @@ using System.Text;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Function : Expression
+	public class Cast : Expression
 	{
-		private readonly string function;
+		private readonly string type;
 		private readonly IExpression expression;
 
-		public Function(string function, IExpression expression)
+		public Cast(IExpression expression, string type)
 		{
-			this.function = function;
+			this.type = type;
 			this.expression = expression;
 		}
 
-		public virtual string FunctionName {
-			get { return function; }
+		public virtual string Type {
+			get { return type; }
 		}
 
 		public IExpression Expression

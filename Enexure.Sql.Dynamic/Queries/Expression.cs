@@ -103,6 +103,11 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Disjunction(expressions);
 		}
 
+		public static Coalesce Coalesce(params IExpression[] expressions)
+		{
+			return new Coalesce(expressions);
+		}
+
 		public static IBoolean Not(IBoolean expression)
 		{
 			return new Not(expression);
@@ -158,6 +163,11 @@ namespace Enexure.Sql.Dynamic.Queries
 		public Function WithFunc(string function)
 		{
 			return new Function(function, this);
+		}
+
+		public IExpression CastTo(string type)
+		{
+			return new Cast(this, type);
 		}
 	}
 }

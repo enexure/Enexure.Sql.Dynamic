@@ -13,5 +13,7 @@ namespace Enexure.Sql.Dynamic.Queries
 		Select AsSelf();
 
 		Function WithFunc(string function);
+
+		IExpression CastTo(string type);
 	}
 }

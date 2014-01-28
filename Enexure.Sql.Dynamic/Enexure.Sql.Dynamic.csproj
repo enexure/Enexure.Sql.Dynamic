@@ -61,8 +61,10 @@
     <Compile Include="Queries\Exceptions\AddedToSelectListAfterSelectingStar.cs" />
     <Compile Include="Queries\Expressions\Aggregate.cs" />
     <Compile Include="Queries\Clauses\Clause.cs" />
+    <Compile Include="Queries\Expressions\Coalesce.cs" />
     <Compile Include="Queries\Expressions\Concatenation.cs" />
     <Compile Include="Queries\Booleans\Disjunction.cs" />
+    <Compile Include="Queries\Expressions\Cast.cs" />
     <Compile Include="Queries\Expressions\Function.cs" />
     <Compile Include="Queries\IExpression.cs" />
     <Compile Include="Queries\Booleans\In.cs" />

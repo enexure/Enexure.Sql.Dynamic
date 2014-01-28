@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
@@ -153,12 +154,12 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Query(this, new WhereClause(WhereClause.List.Add(expression)));
 		}
 
-		public Query Select(IEnumerable<Expression> expressions)
+		public Query Select(IEnumerable<IExpression> expressions)
 		{
 			return new Query(this, new SelectClause(selectClause.List.Add(expressions)));
 		}
 
-		public Query Select(params Expression[] expressions)
+		public Query Select(params IExpression[] expressions)
 		{
 			return new Query(this, new SelectClause(selectClause.List.Add(expressions)));
 		}
@@ -166,6 +167,11 @@ namespace Enexure.Sql.Dynamic.Queries
 		public Query Select(Select selectExpression)
 		{
 			return new Query(this, new SelectClause(selectClause.List.Add(selectExpression)));
+		}
+
+		public Query Select(IEnumerable<Select> selectExpressions)
+		{
+			return new Query(this, new SelectClause(selectClause.List.Add(selectExpressions)));
 		}
 
 		public Query Select(Field field)
@@ -208,9 +214,24 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Query(this, orderByClause.Add(new OrderByItem(expression, order)));
 		}
 
+		public Query OrderBy(OrderByItem orderByItem)
+		{
+			return new Query(this, orderByClause.Add(orderByItem));
+		}
+
 		public DerivedTable As(string alias)
 		{
 			return new DerivedTable(this, alias);
+		}
+
+		public Query Distinct()
+		{
+			return new Query(this, new SelectClause(selectClause, true));
+		}
+
+		public Query First(int rows)
+		{
+			return new Query(this, new SelectClause(selectClause, rows));
 		}
 
 		public Query Skip(int rows)

@@ -53,6 +53,8 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Function), x => Expand((Function)x) },
 					{ typeof(Count), x => Expand((Function)x) },
 					{ typeof(Sum), x => Expand((Function)x) },
+					{ typeof(Coalesce), x => Expand((Coalesce)x) },
+					{ typeof(Cast), x => Expand((Cast)x) },
 
 					{ typeof(Equal), x => Expand((Operator)x) },
 					{ typeof(NotEqual), x => Expand((Operator)x) },
@@ -108,12 +110,24 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(Clause clause)
 			{
+				var select = clause as SelectClause;
+
 				if (!clause.ClauseList.IsEmpty) {
-					if (clause.ClauseName != "select") {
+					if (select == null) {
 						builder.AppendLine();
 					}
 					builder.Append(clause.ClauseName).Append(" ");
 
+					if (select != null) {
+						if (select.Distinct) {
+							builder.Append("distinct ");
+						}
+
+						if (select.First != null) {
+							builder.Append("top ").Append(select.First).Append(" ");
+						}
+					}
+					
 					ExpandExpression(clause.ClauseList);
 				}
 			}
@@ -180,12 +194,16 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(Field field)
 			{
-				var source = field.TabularDataSource.Alias ?? ((TableSource)field.TabularDataSource).Table.Name;
+				if (field.TabularDataSource != null) {
+					var source = field.TabularDataSource.Alias ?? ((TableSource) field.TabularDataSource).Table.Name;
 
-				if (field.Name == "*") {
-					builder.AppendFormat("[{0}].*", source);
+					if (field.Name == "*") {
+						builder.AppendFormat("[{0}].*", source);
+					} else {
+						builder.AppendFormat("[{0}].[{1}]", source, field.Name);
+					}
 				} else {
-					builder.AppendFormat("[{0}].[{1}]", source, field.Name);
+					builder.AppendFormat("[{0}]", field.Name);
 				}
 			}
 
@@ -198,7 +216,8 @@ namespace Enexure.Sql.Dynamic.Providers
 
 			private void Expand(Between between)
 			{
-				builder.Append("between ");
+				ExpandExpression(between.TestExpression);
+				builder.Append(" between ");
 				ExpandExpression(between.LeftExpression);
 				builder.Append(" and ");
 				ExpandExpression(between.RightExpression);
@@ -287,6 +306,19 @@ namespace Enexure.Sql.Dynamic.Providers
 				}
 			}
 
+			private void Expand(Coalesce coalesce)
+			{
+				builder.Append("coalesce (");
+
+				var head = true;
+				foreach (var item in coalesce) {
+					if (head) { head = false; } else { builder.Append(", "); }
+					ExpandExpression(item);
+				}
+
+				builder.Append(')');
+			}
+
 			private void Expand(GroupByClause groupByClause)
 			{
 				if (!groupByClause.IsEmpty) {
@@ -330,6 +362,16 @@ namespace Enexure.Sql.Dynamic.Providers
 				builder.Append("(");
 				ExpandExpression(function.Expression);
 				builder.Append(")");
+			}
+
+			private void Expand(Cast cast)
+			{
+				builder.Append("cast (");
+				ExpandExpression(cast.Expression);
+				builder
+					.Append(" as ")
+					.Append(cast.Type)
+					.Append(")");
 			}
 
 			private void Expand(Not not)

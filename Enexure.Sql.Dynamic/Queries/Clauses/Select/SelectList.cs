@@ -25,6 +25,11 @@ namespace Enexure.Sql.Dynamic.Queries
 		{
 		}
 
+		public SelectList(SelectList selectList, IEnumerable<Select> selectExpressions)
+			: base(selectList.expressions.AddRange(selectExpressions))
+		{
+		}
+
 		public SelectList(SelectList selectList, IExpression expression)
 			: this(selectList, new Select(expression))
 		{
@@ -45,14 +50,19 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new SelectList(this, selectExpression);
 		}
 
-		public virtual SelectList Add(IEnumerable<IExpression> expressions)
+		public virtual SelectList Add(IEnumerable<Select> selectExpressions)
 		{
-			return new SelectList(this, expressions);
+			return new SelectList(this, selectExpressions);
 		}
 
 		public virtual SelectList Add(IExpression expression)
 		{
 			return new SelectList(this, expression);
+		}
+
+		public virtual SelectList Add(IEnumerable<IExpression> expressions)
+		{
+			return new SelectList(this, expressions);
 		}
 
 	}
