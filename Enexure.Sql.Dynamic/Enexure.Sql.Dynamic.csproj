@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Queries\Booleans\Like.cs" />
     <Compile Include="Queries\Booleans\NotEqual.cs" />
     <Compile Include="Queries\Booleans\GreaterThanOrEqual.cs" />
     <Compile Include="Queries\Booleans\LessThanOrEqual.cs" />
@@ -65,6 +66,8 @@
     <Compile Include="Queries\Expressions\Concatenation.cs" />
     <Compile Include="Queries\Booleans\Disjunction.cs" />
     <Compile Include="Queries\Expressions\Cast.cs" />
+    <Compile Include="Queries\Expressions\LiteralExpression.cs" />
+    <Compile Include="Queries\Expressions\LiteralValue.cs" />
     <Compile Include="Queries\Expressions\Function.cs" />
     <Compile Include="Queries\IExpression.cs" />
     <Compile Include="Queries\Booleans\In.cs" />

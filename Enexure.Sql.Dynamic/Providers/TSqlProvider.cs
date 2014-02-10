@@ -45,6 +45,7 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(DerivedTable), x => Expand((DerivedTable)x) },
 					{ typeof(SelectList), x => Expand((SelectList)x) },
 					{ typeof(Select), x => Expand((Select)x) },
+
 					{ typeof(Field), x => Expand((Field)x) },
 					{ typeof(Constant), x => Expand((Constant)x) },
 					{ typeof(JoinList), x => Expand((JoinList)x) },
@@ -55,7 +56,10 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Sum), x => Expand((Function)x) },
 					{ typeof(Coalesce), x => Expand((Coalesce)x) },
 					{ typeof(Cast), x => Expand((Cast)x) },
+					{ typeof(LiteralValue), x => Expand((LiteralValue)x) },
+					{ typeof(LiteralExpression), x => Expand((LiteralExpression)x) },
 
+					{ typeof(Like), x => Expand((Operator)x) },
 					{ typeof(Equal), x => Expand((Operator)x) },
 					{ typeof(NotEqual), x => Expand((Operator)x) },
 					{ typeof(LessThan), x => Expand((Operator)x) },
@@ -131,6 +135,29 @@ namespace Enexure.Sql.Dynamic.Providers
 					ExpandExpression(clause.ClauseList);
 				}
 			}
+
+			private void Expand(LiteralValue literalValue)
+			{
+				var value = literalValue.Value;
+
+				if (value is int
+				    || value is float
+				    || value is double
+				    || value is decimal) {
+
+					builder.Append(value);
+				} else {
+					builder.Append('\'').Append(value).Append('\'');
+				}
+			}
+
+			private void Expand(LiteralExpression literalExpression)
+			{
+				builder.Append(literalExpression.Expression);
+			}
+
+			//{ typeof(LiteralValue), x => Expand((LiteralValue)x) },
+			//{ typeof(LiteralExpression), x => Expand((LiteralExpression)x) },
 
 			private void Expand(FromClause clause)
 			{

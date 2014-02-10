@@ -13,6 +13,16 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Constant(value);
 		}
 
+		public static Like Like(IExpression expressionLeft, object value)
+		{
+			return new Like(expressionLeft, new Constant(value));
+		}
+
+		public static Like Like(IExpression expressionLeft, IExpression expressionRight)
+		{
+			return new Like(expressionLeft, expressionRight);
+		}
+
 		public static Equal Eq(IExpression expressionLeft, object value)
 		{
 			return new Equal(expressionLeft, new Constant(value));
