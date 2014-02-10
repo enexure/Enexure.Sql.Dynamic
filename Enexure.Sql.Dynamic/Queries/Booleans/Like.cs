@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class Equal : Operator
+	public class Like : Operator
 	{
-		public Equal(IExpression expressionLeft, IExpression expressionRight)
+		public Like(IExpression expressionLeft, IExpression expressionRight)
 			: base(expressionLeft, expressionRight)
 		{
 		}
 
 		public override string OperatorSymbol
 		{
-			get { return "="; }
+			get { return "like"; }
 		}
 	}
 }
