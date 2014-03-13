@@ -58,6 +58,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="UnionQueryTest.cs" />
     <Compile Include="OrderByTest.cs" />
     <Compile Include="InTest.cs" />
     <Compile Include="BasicQueryTest.cs" />

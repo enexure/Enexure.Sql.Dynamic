@@ -8,5 +8,9 @@ namespace Enexure.Sql.Dynamic.Queries
 {
 	public class Star : Select
 	{
+		public Count Count()
+		{
+			return new Count(this);
+		}
 	}
 }

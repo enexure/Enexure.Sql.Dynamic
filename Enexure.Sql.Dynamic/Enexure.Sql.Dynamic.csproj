@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Queries\BaseQuery.cs" />
     <Compile Include="Queries\Booleans\Equal.cs" />
     <Compile Include="Queries\Booleans\NotEqual.cs" />
     <Compile Include="Queries\Booleans\GreaterThanOrEqual.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Queries\Clauses\Take\Take.cs" />
     <Compile Include="Queries\Clauses\Select\SelectClause.cs" />
     <Compile Include="Queries\Clauses\Where\WhereClause.cs" />
+    <Compile Include="Queries\UnionQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Enexure.Sql.Dynamic.nuspec" />

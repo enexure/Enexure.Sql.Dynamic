@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
 	public class DerivedTable : TabularDataSource
 	{
-		private readonly Query query;
+		private readonly BaseQuery query;
 
-		public DerivedTable(Query query, string alias)
+		public DerivedTable(BaseQuery query, string alias)
 			: base(alias)
 		{
 			this.query = query;
 		}
 
-		public Query Query {
+		public BaseQuery Query
+		{
 			get {
 				return query;
 			}

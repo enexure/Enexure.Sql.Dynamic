@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public sealed class Query //: IExpression Add Method to SubQuery
+	public sealed class Query : BaseQuery
 	{
 		//Select Clause
 		private readonly SelectClause selectClause;
@@ -139,6 +132,26 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Query(tabularDataSource);
 		}
 
+		public static UnionQuery Union(params Query[] queries)
+		{
+			return new UnionQuery(queries, UnionType.Distinct);
+		}
+
+		public static UnionQuery Union(IEnumerable<Query> queries)
+		{
+			return new UnionQuery(queries, UnionType.Distinct);
+		}
+
+		public static UnionQuery UnionAll(params Query[] queries)
+		{
+			return new UnionQuery(queries, UnionType.All);
+		}
+
+		public static UnionQuery UnionAll(IEnumerable<Query> queries)
+		{
+			return new UnionQuery(queries, UnionType.All);
+		}
+
 		public Query Join(TabularDataSource source, IBoolean expression)
 		{
 			return new Query(this, new FromClause(fromClause, fromClause.List.Add(new Join(source, expression))));
@@ -219,11 +232,6 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Query(this, orderByClause.Add(orderByItem));
 		}
 
-		public DerivedTable As(string alias)
-		{
-			return new DerivedTable(this, alias);
-		}
-
 		public Query Distinct()
 		{
 			return new Query(this, new SelectClause(selectClause, true));
@@ -244,9 +252,5 @@ namespace Enexure.Sql.Dynamic.Queries
 			return new Query(this, new Take(rows));
 		}
 
-		public SubQuery AsSubQuery()
-		{
-			return new SubQuery(this);
-		}
 	}
 }

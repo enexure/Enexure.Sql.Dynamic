@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
-	public class SubQuery : Expression
+	public abstract class BaseQuery
 	{
-		private readonly BaseQuery query;
-
-		public SubQuery(BaseQuery query)
+		public DerivedTable As(string alias)
 		{
-			this.query = query;
+			return new DerivedTable(this, alias);
 		}
 
-		public BaseQuery Query
+		public SubQuery AsSubQuery()
 		{
-			get { return query; }
+			return new SubQuery(this);
 		}
 	}
 }

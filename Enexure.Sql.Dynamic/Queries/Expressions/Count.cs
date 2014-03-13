@@ -11,5 +11,10 @@ namespace Enexure.Sql.Dynamic.Queries
 			: base("count", expression)
 		{
 		}
+
+		public Count(Star star)
+			: base("count", new LiteralExpression("*"))
+		{
+		}
 	}
 }

@@ -19,7 +19,7 @@ namespace Enexure.Sql.Dynamic.Providers
 			private readonly List<SqlParameter> parameters;
 			private int idCounter;
 
-			public Provider(Query query)
+			public Provider(BaseQuery query)
 			{
 				parameters = new List<SqlParameter>();
 				constants = new Dictionary<Constant, int>();
@@ -37,6 +37,7 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Take), x => Expand((Take)x) },
 
 					{ typeof(Query), x => Expand((Query)x) },
+					{ typeof(UnionQuery), x => Expand((UnionQuery)x) },
 					{ typeof(Table), x => Expand((Table)x) },
 					{ typeof(OrderByItem), x => Expand((OrderByItem)x) },
 					
@@ -76,7 +77,7 @@ namespace Enexure.Sql.Dynamic.Providers
 					{ typeof(Between), x => Expand((Between)x) },
 				};
 
-				Expand(query);
+				ExpandExpression(query);
 			}
 
 			private void ExpandExpression(object part)
@@ -105,6 +106,24 @@ namespace Enexure.Sql.Dynamic.Providers
 				ExpandExpression(query.SkipClause);
 				ExpandExpression(query.TakeClause);
 			}
+
+			private void Expand(UnionQuery unionQuery)
+			{
+				var first = true;
+				foreach (var query in unionQuery.Queries) {
+					if (first) {
+						first = false;
+					} else {
+						builder.AppendLine().Append("union");
+						if (unionQuery.UnionType == UnionType.All) {
+							builder.Append(" all");
+						}
+						builder.AppendLine();
+					}
+					ExpandExpression(query);
+				}
+			}
+
 			private void Expand(SubQuery subQuery)
 			{
 				builder.Append("(");
@@ -477,7 +496,7 @@ namespace Enexure.Sql.Dynamic.Providers
 			return new Provider(query).GetCommand();
 		}
 
-		public static string GetSqlString(Query query)
+		public static string GetSqlString(BaseQuery query)
 		{
 			return new Provider(query).GetSqlString();
 		}
