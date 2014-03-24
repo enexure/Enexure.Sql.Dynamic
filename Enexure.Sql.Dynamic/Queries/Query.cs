@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Data;
+using Enexure.Sql.Dynamic.Providers;
 
 namespace Enexure.Sql.Dynamic.Queries
 {
@@ -250,6 +252,11 @@ namespace Enexure.Sql.Dynamic.Queries
 		public Query Take(int rows)
 		{
 			return new Query(this, new Take(rows));
+		}
+
+		public IDbCommand GetCommand(IProvider provider)
+		{
+			return provider.GetCommand(this);
 		}
 
 	}

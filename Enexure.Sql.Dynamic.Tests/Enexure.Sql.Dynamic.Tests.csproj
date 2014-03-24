@@ -58,16 +58,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnionQueryTest.cs" />
-    <Compile Include="OrderByTest.cs" />
-    <Compile Include="InTest.cs" />
-    <Compile Include="BasicQueryTest.cs" />
-    <Compile Include="AggregateTest.cs" />
-    <Compile Include="GroupByTest.cs" />
-    <Compile Include="DerivedTablesTest.cs" />
-    <Compile Include="ParametersTest.cs" />
-    <Compile Include="ExampleQueryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Enexure.Sql.Dynamic\Enexure.Sql.Dynamic.csproj">

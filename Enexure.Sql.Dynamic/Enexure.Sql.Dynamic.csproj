@@ -42,13 +42,11 @@
       <HintPath>..\packages\Microsoft.Bcl.Immutable.1.0.30\lib\portable-net45+win8+wp8\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Providers\IProvider.cs" />
     <Compile Include="Queries\BaseQuery.cs" />
     <Compile Include="Queries\Booleans\Equal.cs" />
     <Compile Include="Queries\Booleans\NotEqual.cs" />
@@ -96,7 +94,6 @@
     <Compile Include="Queries\Clauses\From\Join.cs" />
     <Compile Include="Queries\Exceptions\AliasOnMultipleColumnsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\TSqlProvider.cs" />
     <Compile Include="Queries\Query.cs" />
     <Compile Include="Queries\Clauses\Select\Select.cs" />
     <Compile Include="Queries\Clauses\Select\SelectList.cs" />
