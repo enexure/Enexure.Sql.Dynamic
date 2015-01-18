@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Enexure.Sql.Dynamic")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Daniel Little")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Daniel Little")]
 [assembly: AssemblyProduct("Enexure.Sql.Dynamic")]
