@@ -1,1 +1,0 @@
-powershell.exe -ExecutionPolicy Bypass -NoLogo -NoProfile -File ".\.build\build.ps1"

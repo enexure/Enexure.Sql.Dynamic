@@ -1,5 +1,8 @@
+#Other
+AssemblyVersion.cs
+
 #NuGet
-packages/
+#packages/
 
 #OS junk files
 [Tt]humbs.db
@@ -54,7 +57,7 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 
 #Project files
-[Bb]uild/
+#[Bb]uild/
 *.api-key.txt
 .artifacts/
 

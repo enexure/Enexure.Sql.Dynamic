@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Enexure.Sql.Dynamic</id>
+    <version>$version$</version>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/Exexure/Enexure.Sql.Dynamic/blob/master/License.md</licenseUrl>
+    <projectUrl>https://github.com/Exexure/Enexure.Sql.Dynamic/</projectUrl>
+    <iconUrl>https://github.com/Enexure/Enexure.Sql.Dynamic/blob/master/Logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <tags>SQL Dynamic SQL-Generator</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+</package>
