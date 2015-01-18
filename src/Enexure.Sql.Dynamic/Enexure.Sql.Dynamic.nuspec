@@ -7,7 +7,7 @@
     <owners>$author$</owners>
     <licenseUrl>https://github.com/Enexure/Enexure.Sql.Dynamic/blob/master/License.md</licenseUrl>
     <projectUrl>https://github.com/Enexure/Enexure.Sql.Dynamic/</projectUrl>
-    <iconUrl>https://github.com/Enexure/Enexure.Sql.Dynamic/blob/master/Logo.png</iconUrl>
+    <iconUrl>https://raw.github.com/Enexure/Enexure.Sql.Dynamic/master/Logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <tags>SQL Dynamic SQL-Generator</tags>
