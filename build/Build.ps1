@@ -14,20 +14,20 @@ task Package -depends Compile, Clean {
 
 task Compile -depends Version, Clean { 
 	Write-Host "Version: $Version"
-	$solutionPath = "$solutionDir\Enexure.Fire.Data.sln"
+	$solutionPath = "$solutionDir\Enexure.Sql.Dynamic.sln"
 	Invoke-MsBuild $solutionPath -MSBuildProperties @{ Configuration = "Release" }
 }
 
 task Version -depends Clean {
 
-	$versionSourceFile = "$solutionDir\src\Enexure.Fire.Data\Version.json"
+	$versionSourceFile = "$solutionDir\src\Enexure.Sql.Dynamic\Version.json"
 	$versionSourceFileContents = [string](Get-Content $versionSourceFile)
 	$versionDetail = ConvertFrom-Json $versionSourceFileContents
 	$version = "$($versionDetail.Major).$($versionDetail.Minor).$($versionDetail.Patch).$build"
 
 	Write-Host "Version: $version"
 	
-	$projectDir = "$solutionDir\src\Enexure.Fire.Data\Properties"
+	$projectDir = "$solutionDir\src\Enexure.Sql.Dynamic\Properties"
 	$versionFile = "$projectDir\AssemblyVersion.cs"
 
 	# Version information for an assembly consists of the following four values:
