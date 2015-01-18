@@ -1,4 +1,6 @@
-#Enexure.Sql.Dynamic (alpha)
+Enexure.Sql.Dynamic
+===================
+[![Build status](https://ci.appveyor.com/api/projects/status/1ev9rhfabj5y4jli/branch/master?svg=true)](https://ci.appveyor.com/project/Daniel45729/enexure-sql-dynamic/branch/master)
 
 Dynamic Sql Generation Library
 
