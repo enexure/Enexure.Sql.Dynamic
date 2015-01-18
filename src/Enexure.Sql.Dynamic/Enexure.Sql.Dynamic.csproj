@@ -94,6 +94,7 @@
     <Compile Include="Queries\Clauses\From\Join.cs" />
     <Compile Include="Queries\Exceptions\AliasOnMultipleColumnsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyVersion.cs" Condition="exists('Properties\AssemblyVersion.cs')" />
     <Compile Include="Queries\Query.cs" />
     <Compile Include="Queries\Clauses\Select\Select.cs" />
     <Compile Include="Queries\Clauses\Select\SelectList.cs" />

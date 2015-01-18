@@ -1,23 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enexure.Sql.Dynamic", "src\Enexure.Sql.Dynamic\Enexure.Sql.Dynamic.csproj", "{D1790148-498B-4060-AF4B-479BA4A9E50A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enexure.Sql.Dynamic.Tests", "src\Enexure.Sql.Dynamic.Tests\Enexure.Sql.Dynamic.Tests.csproj", "{6AB56DE8-BB81-49DB-9452-ED6DE31D0F70}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9F39E785-EBE2-4953-9ED7-75B214B49D62}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{A996BBF4-F3B3-42F6-97D6-20C38CDA7610}"
-	ProjectSection(SolutionItems) = preProject
-		.build\package.ps1 = .build\package.ps1
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{B57911CC-59F7-4DE1-9255-99715ABE1E7C}"
 	ProjectSection(SolutionItems) = preProject
